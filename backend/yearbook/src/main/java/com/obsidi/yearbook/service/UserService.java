@@ -2,23 +2,21 @@ package com.obsidi.yearbook.service;
 
 import com.obsidi.yearbook.jpa.User;
 import com.obsidi.yearbook.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
   final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  @Autowired
-  private UserRepository userRepository;
+  @Autowired private UserRepository userRepository;
 
   // Fetch all users
   public List<User> listUsers() {

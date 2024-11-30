@@ -137,7 +137,7 @@ public class User implements Serializable {
   public void setCreatedOn(Timestamp createdOn) {
     this.createdOn = createdOn;
   }
-  
+
   public boolean isEmailVerified() {
     return emailVerified;
   }
