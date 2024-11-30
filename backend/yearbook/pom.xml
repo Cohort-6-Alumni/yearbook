@@ -14,6 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>yearbook</name>
 	<description>Digital Yearbook for Obsidi Alumni</description>
+	<packaging>jar</packaging> 
 	<url />
 	<licenses>
 		<license />
@@ -73,6 +74,23 @@
 						<googleJavaFormat />
 					</java>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.rudikershaw.gitbuildhook</groupId>
+				<artifactId>git-build-hook-maven-plugin</artifactId>
+				<version>3.5.0</version>
+				<configuration>
+					<installHooks>
+						<pre-commit>hooks/pre-commit.sh</pre-commit>
+					</installHooks>
+				</configuration>
+				<!-- <executions> -->
+				<!-- <execution> -->
+				<goals>
+					<goal>install</goal>
+				</goals>
+				<!-- </execution> -->
+				<!-- </executions> -->
 			</plugin>
 		</plugins>
 	</build>
