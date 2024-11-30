@@ -27,7 +27,7 @@ The Yearbook project is a digital yearbook application for Obsidi Alumni. It is 
 
 ### Prerequisites
 
-- Java 21 or higher
+- Java 21
 - Maven 3.6.3 or higher
 - Node.js and npm (for frontend)
 - PostgreSQL
@@ -50,7 +50,7 @@ The Yearbook project is a digital yearbook application for Obsidi Alumni. It is 
         - Value: `jdbc:postgresql://localhost:5432/yearbook`
     6. Click **New** again to add another environment variable.
         - Name: `DEV_USERNAME`
-        - Value: `<your_local_postgress_user>`
+        - Value: `<your_local_postgres_user>`
     7. Click **New** again to add another environment variable.
         - Name: `DEV_PASSWORD`
         - Value: `<your_pg_password>`
@@ -69,6 +69,39 @@ The Yearbook project is a digital yearbook application for Obsidi Alumni. It is 
     ```sh
     ./mvnw spring-boot:run
     ```
+Here are the updated instructions, including how to fix errors:
+
+### Setting up Pre-push Hook with Spotless
+
+To ensure code quality and consistent formatting, we use the Spotless plugin with Maven. Follow these steps to set up a pre-push hook using `mvnw`:
+
+1. Navigate to your project's root directory.
+2. Create a new file named `pre-push` in the `.git/hooks` directory:
+   ```sh
+   touch .git/hooks/pre-push
+   ```
+3. Make the `pre-push` file executable:
+   ```sh
+   chmod +x .git/hooks/pre-push
+   ```
+4. Add the following content to the `pre-push` file:
+   ```sh
+   #!/bin/sh
+   ./mvnw spotless:check
+   if [ $? -ne 0 ]; then
+      echo "Spotless check failed. Please fix the issues before pushing."
+      exit 1
+   fi
+   ```
+5. Save and close the file.
+
+### Fixing Spotless Errors
+
+If the Spotless check fails, you can fix the formatting issues by running:
+```sh
+./mvnw spotless:apply
+```
+This will automatically format your code according to the project's standards. After running this command, attempt to push your changes again.
 
 ### Frontend
 
