@@ -1,6 +1,7 @@
 package com.obsidi.yearbook.jpa;
 
 import java.io.Serializable;
+
 import java.sql.Timestamp;
 //import java.util.List;
 
@@ -13,13 +14,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-//import com.fasterxml.jackson.annotation.JsonInclude;
-//import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-//import jakarta.persistence.CascadeType;
-//import jakarta.persistence.FetchType;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
 //import jakarta.persistence.OneToMany;
-//import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 @Table(name = "\"User\"")
@@ -53,9 +54,9 @@ public class User implements Serializable {
 	@Column(name = "\"createdOn\"")
 	private Timestamp createdOn;
 
-	// @JsonInclude(Include.NON_NULL)
-	// @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	// private Profile profile;
+	 @JsonInclude(Include.NON_NULL)
+	 @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	 private Profile profile;
 
 	public User() {
 	}
@@ -114,6 +115,13 @@ public class User implements Serializable {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 
 	public String getEmailId() {
