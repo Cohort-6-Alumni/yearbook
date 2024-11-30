@@ -1,226 +1,257 @@
 package com.obsidi.yearbook.jpa;
 
-	import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import java.io.Serializable;
+import java.util.UUID;
+import org.hibernate.annotations.ColumnDefault;
 
+@Entity
+@Table(name = "\"Profile\"")
+public class Profile implements Serializable {
 
+  private static final long serialVersionUID = 1L;
 
-	import com.fasterxml.jackson.annotation.JsonIgnore;
-	import com.fasterxml.jackson.annotation.JsonProperty;
-	import com.fasterxml.jackson.annotation.JsonProperty.Access;
+  @Id
+  @ColumnDefault("gen_random_uuid()")
+  @Column(name = "\"profileId\"", nullable = false)
+  @JsonProperty(access = Access.WRITE_ONLY)
+  private UUID profileId;
 
-	import jakarta.persistence.Column;
-	import jakarta.persistence.Entity;
-	import jakarta.persistence.GeneratedValue;
-	import jakarta.persistence.GenerationType;
-	import jakarta.persistence.Id;
-	import jakarta.persistence.JoinColumn;
-	import jakarta.persistence.OneToOne;
-	import jakarta.persistence.Table;
+  private String bio;
+  private String interests;
+  private String hobbies;
+  private String headline;
 
+  @Column(name = "\"favoriteCodingSnack\"")
+  private String favoriteCodingSnack;
 
+  @Column(name = "\"favoriteQuote\"")
+  private String favoriteQuote;
 
-	@Entity
-	@Table(name="\"Profile\"")
-	public class Profile implements Serializable {
+  @Column(name = "\"mostlikelyTo\"")
+  private String mostLikelyTo;
 
-		private static final long serialVersionUID = 1L;
-		
-		@Id
-		@GeneratedValue(strategy=GenerationType.IDENTITY)
-		@Column(name="\"profileId\"")
-		@JsonProperty(access = Access.WRITE_ONLY)
-		private Integer profileId;
-		private String bio;
-		private String interests;
-		private String hobbies;
-		private String headline;
-		
-		@Column(name="\"favoriteCodingSnack\"")
-		private String favoriteCodingSnack;
+  @Column(name = "\"mostMemorableBootcampMoment\"")
+  private String mostMemorableBootcampMoment;
 
-		@Column(name="\"favoriteQuote\"")
-		private String favoriteQuote;
-		
-		@Column(name="\"mostlikelyTo\"")
-		private String mostLikelyTo;
-		
-		@Column(name="\"mostMemorableBootcampMoment\"")
-		private String mostMemorableBootcampMoment;
-		
-		
-		@Column(name="\"adviceForFutureCohort\"")
-		private String adviceForFutureCohort;
-		
-		@Column(name="\"biggestChallenge\"")
-		private String biggestChallenge;
-		
-		@Column(name="\"howYouOvercameIt\"")
-		private String howYouOvercameIt;
-		
+  @Column(name = "\"adviceForFutureCohort\"")
+  private String adviceForFutureCohort;
 
-		@Column(name="\"lastWords\"")
-		private String lastWords;
-		
-		
-		@Column(columnDefinition="TEXT")
-		private String picture;
-		
-		@OneToOne
-		@JsonIgnore
-		@JoinColumn(name="\"userId\"")
-		private User user;
-		
-		public Profile() {
-		}
+  @Column(name = "\"biggestChallenge\"")
+  private String biggestChallenge;
 
-		public Integer getProfileId() {
-			return profileId;
-		}
+  @Column(name = "\"howYouOvercameIt\"")
+  private String howYouOvercameIt;
 
-		public void setProfileId(Integer profileId) {
-			this.profileId = profileId;
-		}
+  @Column(name = "\"lastWords\"")
+  private String lastWords;
 
-		public String getBio() {
-			return bio;
-		}
+  @Column(columnDefinition = "TEXT")
+  private String picture;
 
-		public void setBio(String bio) {
-			this.bio = bio;
-		}
+  @OneToOne
+  @JsonIgnore
+  @JoinColumn(name = "\"userId\"")
+  private User user;
 
-		public String getInterests() {
-			return interests;
-		}
+  public Profile() {}
 
-		public void setInterests(String interests) {
-			this.interests = interests;
-		}
+  public UUID getProfileId() {
+    return profileId;
+  }
 
-		public String getHobbies() {
-			return hobbies;
-		}
+  public void setProfileId(UUID profileId) {
+    this.profileId = profileId;
+  }
 
-		public void setHobbies(String hobbies) {
-			this.hobbies = hobbies;
-		}
+  public String getBio() {
+    return bio;
+  }
 
-		public String getHeadline() {
-			return headline;
-		}
+  public void setBio(String bio) {
+    this.bio = bio;
+  }
 
-		public void setHeadline(String headline) {
-			this.headline = headline;
-		}
+  public String getInterests() {
+    return interests;
+  }
 
-		public String getFavoriteCodingSnack() {
-			return favoriteCodingSnack;
-		}
+  public void setInterests(String interests) {
+    this.interests = interests;
+  }
 
-		public void setFavoriteCodingSnack(String favoriteCodingSnack) {
-			this.favoriteCodingSnack = favoriteCodingSnack;
-		}
+  public String getHobbies() {
+    return hobbies;
+  }
 
-		public String getFavoriteQuote() {
-			return favoriteQuote;
-		}
+  public void setHobbies(String hobbies) {
+    this.hobbies = hobbies;
+  }
 
-		public void setFavoriteQuote(String favoriteQuote) {
-			this.favoriteQuote = favoriteQuote;
-		}
+  public String getHeadline() {
+    return headline;
+  }
 
-		public String getMostLikelyTo() {
-			return mostLikelyTo;
-		}
+  public void setHeadline(String headline) {
+    this.headline = headline;
+  }
 
-		public void setMostLikelyTo(String mostLikelyTo) {
-			this.mostLikelyTo = mostLikelyTo;
-		}
+  public String getFavoriteCodingSnack() {
+    return favoriteCodingSnack;
+  }
 
-		public String getMostMemorableBootcampMoment() {
-			return mostMemorableBootcampMoment;
-		}
+  public void setFavoriteCodingSnack(String favoriteCodingSnack) {
+    this.favoriteCodingSnack = favoriteCodingSnack;
+  }
 
-		public void setMostMemorableBootcampMoment(String mostMemorableBootcampMoment) {
-			this.mostMemorableBootcampMoment = mostMemorableBootcampMoment;
-		}
+  public String getFavoriteQuote() {
+    return favoriteQuote;
+  }
 
-		public String getAdviceForFutureCohort() {
-			return adviceForFutureCohort;
-		}
+  public void setFavoriteQuote(String favoriteQuote) {
+    this.favoriteQuote = favoriteQuote;
+  }
 
-		public void setAdviceForFutureCohort(String adviceForFutureCohort) {
-			this.adviceForFutureCohort = adviceForFutureCohort;
-		}
+  public String getMostLikelyTo() {
+    return mostLikelyTo;
+  }
 
-		public String getBiggestChallenge() {
-			return biggestChallenge;
-		}
+  public void setMostLikelyTo(String mostLikelyTo) {
+    this.mostLikelyTo = mostLikelyTo;
+  }
 
-		public void setBiggestChallenge(String biggestChallenge) {
-			this.biggestChallenge = biggestChallenge;
-		}
+  public String getMostMemorableBootcampMoment() {
+    return mostMemorableBootcampMoment;
+  }
 
-		public String getHowYouOvercameIt() {
-			return howYouOvercameIt;
-		}
+  public void setMostMemorableBootcampMoment(String mostMemorableBootcampMoment) {
+    this.mostMemorableBootcampMoment = mostMemorableBootcampMoment;
+  }
 
-		public void setHowYouOvercameIt(String howYouOvercameIt) {
-			this.howYouOvercameIt = howYouOvercameIt;
-		}
+  public String getAdviceForFutureCohort() {
+    return adviceForFutureCohort;
+  }
 
-		public String getLastWords() {
-			return lastWords;
-		}
+  public void setAdviceForFutureCohort(String adviceForFutureCohort) {
+    this.adviceForFutureCohort = adviceForFutureCohort;
+  }
 
-		public void setLastWords(String lastWords) {
-			this.lastWords = lastWords;
-		}
+  public String getBiggestChallenge() {
+    return biggestChallenge;
+  }
 
-		public String getPicture() {
-			return picture;
-		}
+  public void setBiggestChallenge(String biggestChallenge) {
+    this.biggestChallenge = biggestChallenge;
+  }
 
-		public void setPicture(String picture) {
-			this.picture = picture;
-		}
+  public String getHowYouOvercameIt() {
+    return howYouOvercameIt;
+  }
 
-		public User getUser() {
-			return user;
-		}
+  public void setHowYouOvercameIt(String howYouOvercameIt) {
+    this.howYouOvercameIt = howYouOvercameIt;
+  }
 
-		public void setUser(User user) {
-			this.user = user;
-		}
+  public String getLastWords() {
+    return lastWords;
+  }
 
-		@Override
-		public String toString() {
-			return "Profile [profileId=" + profileId + ", bio=" + bio + ", interests=" + interests + ", hobbies="
-					+ hobbies + ", headline=" + headline + ", favoriteCodingSnack=" + favoriteCodingSnack
-					+ ", favoriteQuote=" + favoriteQuote + ", mostLikelyTo=" + mostLikelyTo
-					+ ", mostMemorableBootcampMoment=" + mostMemorableBootcampMoment + ", adviceForFutureCohort="
-					+ adviceForFutureCohort + ", biggestChallenge=" + biggestChallenge + ", howYouOvercameIt="
-					+ howYouOvercameIt + ", lastWords=" + lastWords + ", picture=" + picture + ", user=" + user
-					+ ", getProfileId()=" + getProfileId() + ", getBio()=" + getBio() + ", getInterests()="
-					+ getInterests() + ", getHobbies()=" + getHobbies() + ", getHeadline()=" + getHeadline()
-					+ ", getFavoriteCodingSnack()=" + getFavoriteCodingSnack() + ", getFavoriteQuote()="
-					+ getFavoriteQuote() + ", getMostLikelyTo()=" + getMostLikelyTo()
-					+ ", getMostMemorableBootcampMoment()=" + getMostMemorableBootcampMoment()
-					+ ", getAdviceForFutureCohort()=" + getAdviceForFutureCohort() + ", getBiggestChallenge()="
-					+ getBiggestChallenge() + ", getHowYouOvercameIt()=" + getHowYouOvercameIt() + ", getLastWords()="
-					+ getLastWords() + ", getPicture()=" + getPicture() + ", getUser()=" + getUser() + ", getClass()="
-					+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
-		}
+  public void setLastWords(String lastWords) {
+    this.lastWords = lastWords;
+  }
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	}
+  public String getPicture() {
+    return picture;
+  }
+
+  public void setPicture(String picture) {
+    this.picture = picture;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  @Override
+  public String toString() {
+    return "Profile [profileId="
+        + profileId
+        + ", bio="
+        + bio
+        + ", interests="
+        + interests
+        + ", hobbies="
+        + hobbies
+        + ", headline="
+        + headline
+        + ", favoriteCodingSnack="
+        + favoriteCodingSnack
+        + ", favoriteQuote="
+        + favoriteQuote
+        + ", mostLikelyTo="
+        + mostLikelyTo
+        + ", mostMemorableBootcampMoment="
+        + mostMemorableBootcampMoment
+        + ", adviceForFutureCohort="
+        + adviceForFutureCohort
+        + ", biggestChallenge="
+        + biggestChallenge
+        + ", howYouOvercameIt="
+        + howYouOvercameIt
+        + ", lastWords="
+        + lastWords
+        + ", picture="
+        + picture
+        + ", user="
+        + user
+        + ", getProfileId()="
+        + getProfileId()
+        + ", getBio()="
+        + getBio()
+        + ", getInterests()="
+        + getInterests()
+        + ", getHobbies()="
+        + getHobbies()
+        + ", getHeadline()="
+        + getHeadline()
+        + ", getFavoriteCodingSnack()="
+        + getFavoriteCodingSnack()
+        + ", getFavoriteQuote()="
+        + getFavoriteQuote()
+        + ", getMostLikelyTo()="
+        + getMostLikelyTo()
+        + ", getMostMemorableBootcampMoment()="
+        + getMostMemorableBootcampMoment()
+        + ", getAdviceForFutureCohort()="
+        + getAdviceForFutureCohort()
+        + ", getBiggestChallenge()="
+        + getBiggestChallenge()
+        + ", getHowYouOvercameIt()="
+        + getHowYouOvercameIt()
+        + ", getLastWords()="
+        + getLastWords()
+        + ", getPicture()="
+        + getPicture()
+        + ", getUser()="
+        + getUser()
+        + ", getClass()="
+        + getClass()
+        + ", hashCode()="
+        + hashCode()
+        + ", toString()="
+        + super.toString()
+        + "]";
+  }
+}
