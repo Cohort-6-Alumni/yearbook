@@ -39,9 +39,6 @@ public class UserService {
     user.setUsername(user.getUsername().toLowerCase());
     user.setEmailId(user.getEmailId().toLowerCase());
 
-    // Set emailVerified to false
-    user.setEmailVerified(false);
-
     // Set createdOn to the current timestamp
     user.setCreatedOn(Timestamp.from(Instant.now()));
 

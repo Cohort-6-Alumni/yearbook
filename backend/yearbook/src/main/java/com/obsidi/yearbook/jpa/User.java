@@ -49,9 +49,6 @@ public class User implements Serializable {
   @Column(name = "\"createdOn\"")
   private Timestamp createdOn;
 
-  @Column(name = "\"emailVerified\"")
-  private boolean emailVerified;
-
   @JsonInclude(Include.NON_NULL)
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Profile profile;
@@ -136,14 +133,6 @@ public class User implements Serializable {
 
   public void setCreatedOn(Timestamp createdOn) {
     this.createdOn = createdOn;
-  }
-
-  public boolean isEmailVerified() {
-    return emailVerified;
-  }
-
-  public void setEmailVerified(boolean emailVerified) {
-    this.emailVerified = emailVerified;
   }
 
   @Override
