@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserService {
 
   final Logger logger = LoggerFactory.getLogger(this.getClass());
- 
 
   @Autowired UserRepository userRepository;
 
