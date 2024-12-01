@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>yearbook</name>
 	<description>Digital Yearbook for Obsidi Alumni</description>
-	<packaging>jar</packaging> 
+	<packaging>jar</packaging>
 	<url />
 	<licenses>
 		<license />
@@ -57,7 +57,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-	<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
@@ -99,13 +99,14 @@
 						<pre-commit>hooks/pre-commit.sh</pre-commit>
 					</installHooks>
 				</configuration>
-				<!-- <executions> -->
-				<!-- <execution> -->
-				<goals>
-					<goal>install</goal>
-				</goals>
-				<!-- </execution> -->
-				<!-- </executions> -->
+				<executions>
+					<execution>
+						<?m2e execute onConfiguration?>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
