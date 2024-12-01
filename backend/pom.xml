@@ -14,6 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>yearbook</name>
 	<description>Digital Yearbook for Obsidi Alumni</description>
+	<packaging>jar</packaging>
 	<url />
 	<licenses>
 		<license />
@@ -29,6 +30,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<spotless.version>2.44.0.BETA4</spotless.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -56,6 +58,21 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -67,12 +84,52 @@
 			<plugin>
 				<groupId>com.diffplug.spotless</groupId>
 				<artifactId>spotless-maven-plugin</artifactId>
-				<version>2.43.0</version>
+				<version>${spotless.version}</version>
 				<configuration>
 					<java>
 						<googleJavaFormat />
 					</java>
 				</configuration>
+			</plugin>
+			<!-- <plugin>
+				<groupId>com.spotify.fmt</groupId>
+				<artifactId>fmt-maven-plugin</artifactId>
+				<version>2.25</version>
+				<configuration>
+					<sourceDirectory>src/</sourceDirectory>
+					<testSourceDirectory>src/test/</testSourceDirectory>
+					<verbose>true</verbose>
+					<filesNamePattern>.*\.java</filesNamePattern>
+					<skipSourceDirectory>false</skipSourceDirectory>
+					<skipTestSourceDirectory>false</skipTestSourceDirectory>
+					<skipSortingImports>false</skipSortingImports>
+					<style>google</style>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> -->
+			<plugin>
+				<groupId>com.rudikershaw.gitbuildhook</groupId>
+				<artifactId>git-build-hook-maven-plugin</artifactId>
+				<version>3.5.0</version>
+				<configuration>
+					<installHooks>
+						<pre-commit>hooks/pre-commit.sh</pre-commit>
+					</installHooks>
+				</configuration>
+				<executions>
+					<execution>
+						<?m2e execute onConfiguration?>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
