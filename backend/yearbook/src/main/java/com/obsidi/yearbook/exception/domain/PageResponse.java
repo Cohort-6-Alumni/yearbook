@@ -2,55 +2,54 @@ package com.obsidi.yearbook.exception.domain;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 
 public class PageResponse<T> {
-	
-	int pageNum;
-	int pageSize;
-	int totalPages;
-	List<T> content;
-	
-	public PageResponse(Page<T> paged) {
 
-	    if (Optional.ofNullable(paged).isPresent()) {
-	        this.pageNum = paged.getNumber();
-	        this.pageSize = paged.getSize();
-	        this.totalPages = paged.getTotalPages();
-	        this.content = paged.getContent();
-	    }
-	}
+  int pageNum;
+  int pageSize;
+  int totalPages;
+  List<T> content;
 
-	public int getPageNum() {
-		return pageNum;
-	}
+  public PageResponse(Page<T> paged) {
 
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
-	}
+    if (Optional.ofNullable(paged).isPresent()) {
+      this.pageNum = paged.getNumber();
+      this.pageSize = paged.getSize();
+      this.totalPages = paged.getTotalPages();
+      this.content = paged.getContent();
+    }
+  }
 
-	public int getPageSize() {
-		return pageSize;
-	}
+  public int getPageNum() {
+    return pageNum;
+  }
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
+  public void setPageNum(int pageNum) {
+    this.pageNum = pageNum;
+  }
 
-	public int getTotalPages() {
-		return totalPages;
-	}
+  public int getPageSize() {
+    return pageSize;
+  }
 
-	public void setTotalPages(int totalPages) {
-		this.totalPages = totalPages;
-	}
+  public void setPageSize(int pageSize) {
+    this.pageSize = pageSize;
+  }
 
-	public List<T> getContent() {
-		return content;
-	}
+  public int getTotalPages() {
+    return totalPages;
+  }
 
-	public void setContent(List<T> content) {
-		this.content = content;
-	}
+  public void setTotalPages(int totalPages) {
+    this.totalPages = totalPages;
+  }
+
+  public List<T> getContent() {
+    return content;
+  }
+
+  public void setContent(List<T> content) {
+    this.content = content;
+  }
 }
