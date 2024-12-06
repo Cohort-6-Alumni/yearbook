@@ -1,32 +1,28 @@
 package com.obsidi.yearbook.security;
 
+import com.obsidi.yearbook.jpa.User;
+import com.obsidi.yearbook.repository.UserRepository;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import org.springframework.stereotype.Service;
-import com.obsidi.yearbook.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.obsidi.yearbook.jpa.User;
-import java.util.Optional;
 
 @Service("UserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	UserRepository userRepository;
+  @Autowired UserRepository userRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		Optional<User> opt = this.userRepository.findByUsername(username);
+    Optional<User> opt = this.userRepository.findByUsername(username);
 
-		if (opt.isEmpty()) {
-			throw new UsernameNotFoundException("Username not found: " + username);
-		}
+    if (opt.isEmpty()) {
+      throw new UsernameNotFoundException("Username not found: " + username);
+    }
 
-		return new CustomUserDetails(opt.get());
-	}
-
+    return new CustomUserDetails(opt.get());
+  }
 }

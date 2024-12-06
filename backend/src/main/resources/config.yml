@@ -1,0 +1,31 @@
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86_400_000 # 24 hours
+  issuer: 'Academy Cohort 6'
+  audience: yearbook
+  prefix: 'Bearer '
+  excluded.urls: >
+    /user/login,
+    /user/signup,
+    /user/reset/*,
+    /test/**,
+    /actuator/**,
+    /error
+# Client Configuration
+client:
+  url: http://localhost:3000
+  email:
+    verify:
+      param: user/verifyEmail
+      expiration: 86_400_000 # 24 hours
+    reset:
+      param: user/resetPassword
+      expiration: 86_400_000 # 24 hours
+# H2 Server Configuration
+h2.server:
+  params: >
+    -tcp,
+    -tcpAllowOthers,
+    -tcpPort,
+    9090
