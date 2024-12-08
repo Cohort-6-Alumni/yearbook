@@ -42,6 +42,12 @@ public class ResourceProvider {
   @Value("${client.email.reset.expiration}")
   private long clientResetExpiration;
 
+  @Value("${client.email.invite.param}")
+  private String clientInviteParam;
+
+  @Value("${client.email.invite.expiration}")
+  private long clientInviteExpiration;
+
   @Value("${h2.server.params}")
   private String[] h2ServerParams;
 
@@ -87,6 +93,14 @@ public class ResourceProvider {
 
   public long getClientResetExpiration() {
     return clientResetExpiration;
+  }
+
+  public String getClientInviteParam() {
+    return clientInviteParam;
+  }
+
+  public long getClientInviteExpiration() {
+    return clientInviteExpiration;
   }
 
   public String[] getH2ServerParams() {
