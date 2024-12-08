@@ -53,6 +53,17 @@ public class EmailService {
         this.provider.getClientResetExpiration());
   }
 
+  @Async
+  public void sendInviteMail(User user) {
+
+    this.sendEmail(
+        user,
+        this.provider.getClientInviteParam(),
+        "invite_email",
+        "Join the Alumni Yearbook",
+        this.provider.getClientInviteExpiration());
+  }
+
   private void sendEmail(
       User user, String clientParam, String templateName, String emailSubject, long expiration) {
 

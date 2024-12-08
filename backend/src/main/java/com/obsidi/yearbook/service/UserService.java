@@ -211,6 +211,45 @@ public class UserService {
     }
   }
 
+  public void sendInviteEmail(String emailId) {
+    // Retrieve the user by emailId
+    Optional<User> opt = this.userRepository.findByEmailId(emailId);
+
+    if (opt.isPresent()) {
+      // Call the sendInviteMail method in EmailService
+      this.emailService.sendInviteMail(opt.get());
+    } else {
+      logger.debug("Email doesn't exist: {}", emailId);
+    }
+  }
+
+  public void completeSignup(String password) {
+    // Retrieve the username from the SecurityContext
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    // Find the user by username
+    User user =
+        userRepository
+            .findByUsername(username)
+            .orElseThrow(
+                () ->
+                    new UserNotFoundException(
+                        String.format("User not found for username: %s", username)));
+
+    // Check if the user already has a password set
+    if (user.getPassword() != null) {
+      throw new IllegalArgumentException("User has already completed signup.");
+    }
+
+    // Encode and set the new password
+    user.setPassword(passwordEncoder.encode(password));
+
+    // Save the updated user back to the repository
+    userRepository.save(user);
+
+    logger.debug("User signup completed for username: {}", username);
+  }
+
   private User updateUserProfile(Profile profile, User user) {
 
     Profile currentProfile = user.getProfile();

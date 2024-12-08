@@ -22,6 +22,9 @@ client:
     reset:
       param: user/resetPassword
       expiration: 86_400_000 # 24 hours
+    invite:
+      param: user/sendInvite
+      expiration: 172_800_000 # 48 hours
 # H2 Server Configuration
 h2.server:
   params: >

@@ -8,7 +8,7 @@ if [ $? -ne 0 ]; then
    echo "Spotless check failed...."
    echo "Running Spotless Formatter to fix the issues....."
 
-   ./mvnw spotless:format
+   ./mvnw spotless:apply
     if [ $? -ne 0 ]; then
         echo "Spotless Formatter failed...."
         echo "Please fix the issues and commit again...."
