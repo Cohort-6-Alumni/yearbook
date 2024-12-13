@@ -2,17 +2,24 @@ BEGIN;
 -- Enable the uuid-ossp extension
 -- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- Drop tables if they exist
+DROP TABLE IF EXISTS public."Profile" CASCADE;
+DROP TABLE IF EXISTS public."User" CASCADE;
+
 CREATE TABLE IF NOT EXISTS public."User"
 (
     "userId" uuid DEFAULT gen_random_uuid() NOT NULL,
+    username character varying NOT NULL,
     "firstName" character varying NOT NULL,
     "lastName" character varying NOT NULL,
-    email character varying NOT NULL,
+    "emailId" character varying NOT NULL,
     password character varying NOT NULL,
     "createdOn" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedOn" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     role character varying NOT NULL DEFAULT 'user'::character varying,
     CONSTRAINT "User_pkey" PRIMARY KEY ("userId"),
-    CONSTRAINT "User_email_key" UNIQUE (email)
+    CONSTRAINT "User_username_key" UNIQUE ("username"),
+    CONSTRAINT "User_email_key" UNIQUE ("emailId")
 );
 
 CREATE TABLE IF NOT EXISTS public."Profile"
@@ -30,6 +37,10 @@ CREATE TABLE IF NOT EXISTS public."Profile"
     "biggestChallenge" text,
     "howYouOvercameIt" text,
     "lastWords" text,
+    "headline" character varying,
+    "picture" character varying,
+    "createdOn" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedOn" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "Profile_pkey" PRIMARY KEY ("profileId"),
     CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId")
         REFERENCES public."User" ("userId") MATCH SIMPLE
@@ -37,7 +48,7 @@ CREATE TABLE IF NOT EXISTS public."Profile"
         ON DELETE CASCADE
 );
 
--- Trigger function to prevent updates to UUID columns
+-- Trigger function to prevent updates to UUID columns --DO NOT DELETE
 CREATE OR REPLACE FUNCTION prevent_uuid_update()
 RETURNS TRIGGER AS $$
 BEGIN
