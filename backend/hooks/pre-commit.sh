@@ -14,16 +14,17 @@ if [ $? -ne 0 ]; then
         echo "Please fix the issues and commit again...."
         exit 1
     fi
+
+    echo "Code formatted successfully"
+    echo "Committing changes....."
+
+fi
 #    now format frontend code
-    cd frontend/
+    cd ../frontend/
     npm run format
     if [ $? -ne 0 ]; then
         echo "Code formatting failed...."
         echo "Please fix the issues and commit again...."
         exit 1
     fi
-    echo "Code formatted successfully"
-    echo "Committing changes....."
-
-fi
 exit $?
