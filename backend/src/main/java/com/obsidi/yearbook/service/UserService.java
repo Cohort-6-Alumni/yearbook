@@ -115,13 +115,17 @@ public class UserService {
         .ifPresent(setter);
   }
 
+  private void updateTimestamp(Supplier<Timestamp> getter, Consumer<Timestamp> setter) {
+    Optional.ofNullable(getter.get()).ifPresent(setter);
+  }
+
   private User updateUser(User user, User currentUser) {
 
     this.updateValue(user::getFirstName, currentUser::setFirstName);
     this.updateValue(user::getLastName, currentUser::setLastName);
-    this.updateValue(user::getPhone, currentUser::setPhone);
     this.updateValue(user::getEmailId, currentUser::setEmailId);
     this.updatePassword(user::getPassword, currentUser::setPassword);
+    this.updateTimestamp(() -> Timestamp.from(Instant.now()), currentUser::setUpdatedOn);
 
     return this.userRepository.save(currentUser);
   }
@@ -271,6 +275,7 @@ public class UserService {
       this.updateValue(profile::getBiggestChallenge, currentProfile::setBiggestChallenge);
       this.updateValue(profile::getHowYouOvercameIt, currentProfile::setHowYouOvercameIt);
       this.updateValue(profile::getLastWords, currentProfile::setLastWords);
+      this.updateTimestamp(() -> Timestamp.from(Instant.now()), currentProfile::setUpdatedOn);
 
     } else {
       user.setProfile(profile);

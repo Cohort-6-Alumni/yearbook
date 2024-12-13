@@ -56,7 +56,6 @@ public class UserController {
     user.setLastName(last);
     user.setUsername(username);
     user.setPassword(password);
-    user.setPhone(phone);
     user.setEmailId(emailId);
 
     return userService.createUser(user);

@@ -10,6 +10,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -61,6 +63,30 @@ public class Profile implements Serializable {
   @JsonIgnore
   @JoinColumn(name = "\"userId\"")
   private User user;
+
+  @ColumnDefault("CURRENT_TIMESTAMP")
+  @Column(name = "\"createdOn\"")
+  private Instant createdOn;
+
+  @ColumnDefault("CURRENT_TIMESTAMP")
+  @Column(name = "\"updatedOn\"")
+  private Timestamp updatedOn;
+
+  public Timestamp getUpdatedOn() {
+    return updatedOn;
+  }
+
+  public void setUpdatedOn(Timestamp updatedOn) {
+    this.updatedOn = updatedOn;
+  }
+
+  public Instant getCreatedOn() {
+    return createdOn;
+  }
+
+  public void setCreatedOn(Instant createdOn) {
+    this.createdOn = createdOn;
+  }
 
   public Profile() {}
 
