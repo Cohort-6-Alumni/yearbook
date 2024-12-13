@@ -1,11 +1,15 @@
+import { Routes, Route, Navigate } from 'react-router';
+import Login from './pages/app/Login';
+import CompleteProfile from './pages/app/CompleteProfile';
 
-const App = ()=> {
-
+const App = () => {
   return (
-    <>
-      <h1>YEAR BOOK</h1>
-    </>
-  )
-}
+    <Routes>
+      <Route exact path="/login" element={<Login />} />
+      <Route exact path="/completeProfile" element={<CompleteProfile />} />
+      <Route exact path="*" element={<Navigate to="/login" />} />
+    </Routes>
+  );
+};
 
 export default App;
