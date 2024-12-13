@@ -25,127 +25,130 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	private UserService userService;
+  @Autowired private UserService userService;
 
-	// List all users
-	@GetMapping("/")
-	public List<User> listUsers() {
-		return userService.listUsers();
-	}
+  // List all users
+  @GetMapping("/")
+  public List<User> listUsers() {
+    return userService.listUsers();
+  }
 
-	// Find user by username
-	@GetMapping("/{username}")
-	public Optional<User> findByUsername(@PathVariable String username) {
-		return userService.findByUsername(username);
-	}
+  // Find user by username
+  @GetMapping("/{username}")
+  public Optional<User> findByUsername(@PathVariable String username) {
+    return userService.findByUsername(username);
+  }
 
-	// Create a new user
-	@PostMapping("/{first}/{last}/{username}/{password}/{phone}/{emailId}")
-	public User createUser(@PathVariable String first, @PathVariable String last, @PathVariable String username,
-			@PathVariable String password, @PathVariable String phone, @PathVariable String emailId) {
+  // Create a new user
+  @PostMapping("/{first}/{last}/{username}/{password}/{phone}/{emailId}")
+  public User createUser(
+      @PathVariable String first,
+      @PathVariable String last,
+      @PathVariable String username,
+      @PathVariable String password,
+      @PathVariable String phone,
+      @PathVariable String emailId) {
 
-		User user = new User();
-		user.setFirstName(first);
-		user.setLastName(last);
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setPhone(phone);
-		user.setEmailId(emailId);
+    User user = new User();
+    user.setFirstName(first);
+    user.setLastName(last);
+    user.setUsername(username);
+    user.setPassword(password);
+    user.setEmailId(emailId);
 
-		return userService.createUser(user);
-	}
+    return userService.createUser(user);
+  }
 
-	// Signup a new user
-	@PostMapping("/signup")
-	public User signup(@RequestBody User user) {
-		// Log debug message for user signup
-		logger.debug("Signing up, username: {}", user.getUsername());
+  // Signup a new user
+  @PostMapping("/signup")
+  public User signup(@RequestBody User user) {
+    // Log debug message for user signup
+    logger.debug("Signing up, username: {}", user.getUsername());
 
-		// Pass the user object to the signup method in UserService
-		return this.userService.signup(user);
-	}
+    // Pass the user object to the signup method in UserService
+    return this.userService.signup(user);
+  }
 
-	@PostMapping("/login")
-	public ResponseEntity<User> login(@RequestBody User user) {
+  @PostMapping("/login")
+  public ResponseEntity<User> login(@RequestBody User user) {
 
-		logger.debug("Authenticating, username: {}, password: {}", user.getUsername(), user.getPassword());
+    logger.debug(
+        "Authenticating, username: {}, password: {}", user.getUsername(), user.getPassword());
 
-		/* Spring Security Authentication. */
-		user = this.userService.authenticate(user);
+    /* Spring Security Authentication. */
+    user = this.userService.authenticate(user);
 
-		/* Generate JWT and HTTP Header */
-		HttpHeaders jwtHeader = this.userService.generateJwtHeader(user.getUsername());
+    /* Generate JWT and HTTP Header */
+    HttpHeaders jwtHeader = this.userService.generateJwtHeader(user.getUsername());
 
-		logger.debug("User Authenticated, username: {}", user.getUsername());
+    logger.debug("User Authenticated, username: {}", user.getUsername());
 
-		return new ResponseEntity<>(user, jwtHeader, OK);
-	}
+    return new ResponseEntity<>(user, jwtHeader, OK);
+  }
 
-	// Endpoint to send an invite email
-	@GetMapping("/invite/{emailId}")
-	public void sendInviteEmail(@PathVariable String emailId) {
-		logger.debug("Sending Reset Password Email, emailId: {}", emailId);
+  // Endpoint to send an invite email
+  @GetMapping("/invite/{emailId}")
+  public void sendInviteEmail(@PathVariable String emailId) {
+    logger.debug("Sending Reset Password Email, emailId: {}", emailId);
 
-		this.userService.sendInviteEmail(emailId);
-	}
+    this.userService.sendInviteEmail(emailId);
+  }
 
-	// Endpoint to complete signup by setting a password
-	@PostMapping("/signup/complete")
-	public void completeSignup(@RequestBody JsonNode json) {
-		String password = json.get("password").asText();
+  // Endpoint to complete signup by setting a password
+  @PostMapping("/signup/complete")
+  public void completeSignup(@RequestBody JsonNode json) {
+    String password = json.get("password").asText();
 
-		logger.debug("Completing signup for user with password: {}", password);
+    logger.debug("Completing signup for user with password: {}", password);
 
-		this.userService.completeSignup(password);
-	}
+    this.userService.completeSignup(password);
+  }
 
-	@GetMapping("/reset/{emailId}")
-	public void sendResetPasswordEmail(@PathVariable String emailId) {
+  @GetMapping("/reset/{emailId}")
+  public void sendResetPasswordEmail(@PathVariable String emailId) {
 
-		logger.debug("Sending Reset Password Email, emailId: {}", emailId);
+    logger.debug("Sending Reset Password Email, emailId: {}", emailId);
 
-		this.userService.sendResetPasswordEmail(emailId);
-	}
+    this.userService.sendResetPasswordEmail(emailId);
+  }
 
-	@PostMapping("/reset")
-	public void passwordReset(@RequestBody JsonNode json) {
+  @PostMapping("/reset")
+  public void passwordReset(@RequestBody JsonNode json) {
 
-		logger.debug("Resetting Password, password: {}", json.get("password").asText());
+    logger.debug("Resetting Password, password: {}", json.get("password").asText());
 
-		this.userService.resetPassword(json.get("password").asText());
-	}
+    this.userService.resetPassword(json.get("password").asText());
+  }
 
-	@GetMapping("/get")
-	public User getUser() {
+  @GetMapping("/get")
+  public User getUser() {
 
-		logger.debug("Getting User Data");
+    logger.debug("Getting User Data");
 
-		return this.userService.getUser();
-	}
+    return this.userService.getUser();
+  }
 
-	@PostMapping("/update")
-	public User updateUser(@RequestBody User user) {
+  @PostMapping("/update")
+  public User updateUser(@RequestBody User user) {
 
-		logger.debug("Updating User Data");
+    logger.debug("Updating User Data");
 
-		return this.userService.updateUser(user);
-	}
+    return this.userService.updateUser(user);
+  }
 
-	@PostMapping("/update/profile")
-	public User updateUserProfile(@RequestBody Profile profile) {
+  @PostMapping("/update/profile")
+  public User updateUserProfile(@RequestBody Profile profile) {
 
-		logger.debug("Updating User Profile Data, Profile: {}", profile.toString());
+    logger.debug("Updating User Profile Data, Profile: {}", profile.toString());
 
-		return this.userService.updateUserProfile(profile);
-	}
+    return this.userService.updateUserProfile(profile);
+  }
 
-	@DeleteMapping("/delete")
-	public void deleteUser() {
-		logger.debug("Deleting user account.");
-		this.userService.deleteUser();
-	}
-
+  @DeleteMapping("/delete")
+  public void deleteUser() {
+    logger.debug("Deleting user account.");
+    this.userService.deleteUser();
+  }
 }

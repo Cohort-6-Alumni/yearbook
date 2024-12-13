@@ -39,8 +39,6 @@ public class User implements Serializable {
   @JsonProperty(access = Access.WRITE_ONLY)
   private String password;
 
-  private String phone;
-
   private String role;
 
   @Column(name = "\"emailId\"")
@@ -52,6 +50,18 @@ public class User implements Serializable {
   @JsonInclude(Include.NON_NULL)
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Profile profile;
+
+  @ColumnDefault("CURRENT_TIMESTAMP")
+  @Column(name = "\"updatedOn\"")
+  private Timestamp updatedOn;
+
+  public Timestamp getUpdatedOn() {
+    return updatedOn;
+  }
+
+  public void setUpdatedOn(Timestamp updatedOn) {
+    this.updatedOn = updatedOn;
+  }
 
   public User() {}
 
@@ -93,14 +103,6 @@ public class User implements Serializable {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
   }
 
   public String getRole() {
@@ -147,8 +149,6 @@ public class User implements Serializable {
         + username
         + ", password="
         + password
-        + ", phone="
-        + phone
         + ", role="
         + role
         + ", emailId="
