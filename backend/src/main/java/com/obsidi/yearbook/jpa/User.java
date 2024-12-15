@@ -8,6 +8,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -22,10 +24,16 @@ public class User implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  // @Id
+  // @ColumnDefault("gen_random_uuid()")
+  // @Column(name = "\"userId\"", nullable = false)
+  // @JsonProperty(access = Access.WRITE_ONLY)
+  // private UUID userId;
+
   @Id
-  @ColumnDefault("gen_random_uuid()")
-  @Column(name = "\"userId\"", nullable = false)
-  @JsonProperty(access = Access.WRITE_ONLY)
+  @GeneratedValue(strategy = GenerationType.UUID) // Hibernate's built-in UUID generator
+  @Column(name = "\"userId\"", nullable = false, updatable = false)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private UUID userId;
 
   @Column(name = "\"firstName\"")
