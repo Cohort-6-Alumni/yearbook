@@ -11,7 +11,8 @@ jwt:
     /user/reset/*,
     /test/**,
     /actuator/**,
-    /error
+    /error,
+    /user/invite/*
 # Client Configuration
 client:
   url: http://localhost:3000
