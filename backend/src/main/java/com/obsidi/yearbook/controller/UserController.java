@@ -41,7 +41,6 @@ public class UserController {
     return userService.findByUsername(username);
   }
 
-  
   // Endpoint to send an invite email
   @GetMapping("/invite/{emailId}")
   public void sendInviteEmail(@PathVariable String emailId) {
@@ -49,8 +48,7 @@ public class UserController {
 
     this.userService.sendInviteEmail(emailId);
   }
-  
-  
+
   // Endpoint to complete signup by setting a password
   @PostMapping("/signup/complete")
   public void completeSignup(@RequestBody JsonNode json) {
@@ -60,8 +58,6 @@ public class UserController {
 
     this.userService.completeSignup(password);
   }
-  
-  
 
   @PostMapping("/login")
   public ResponseEntity<User> login(@RequestBody User user) {
@@ -87,7 +83,6 @@ public class UserController {
 
     return this.userService.updateUserProfile(profile);
   }
-
 
   @GetMapping("/reset/{emailId}")
   public void sendResetPasswordEmail(@PathVariable String emailId) {
@@ -121,13 +116,9 @@ public class UserController {
     return this.userService.updateUser(user);
   }
 
-  
   @DeleteMapping("/delete")
   public void deleteUser() {
     logger.debug("Deleting user account.");
     this.userService.deleteUser();
   }
-
-
-
 }
