@@ -1,10 +1,10 @@
 package com.obsidi.yearbook.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -22,9 +22,8 @@ public class Profile implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Id
-  @ColumnDefault("gen_random_uuid()")
-  @Column(name = "\"profileId\"", nullable = false)
-  @JsonProperty(access = Access.WRITE_ONLY)
+  @Column(name = "\"profileId\"", nullable = false, updatable = false)
+  @GeneratedValue(strategy = GenerationType.UUID) // Use Hibernate's built-in strategy
   private UUID profileId;
 
   private String bio;
@@ -38,7 +37,7 @@ public class Profile implements Serializable {
   @Column(name = "\"favoriteQuote\"")
   private String favoriteQuote;
 
-  @Column(name = "\"mostlikelyTo\"")
+  @Column(name = "\"mostLikelyTo\"")
   private String mostLikelyTo;
 
   @Column(name = "\"mostMemorableBootcampMoment\"")

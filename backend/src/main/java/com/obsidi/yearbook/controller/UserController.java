@@ -41,35 +41,27 @@ public class UserController {
     return userService.findByUsername(username);
   }
 
-  // Create a new user
-  @PostMapping("/{first}/{last}/{username}/{password}/{phone}/{emailId}")
-  public User createUser(
-      @PathVariable String first,
-      @PathVariable String last,
-      @PathVariable String username,
-      @PathVariable String password,
-      @PathVariable String phone,
-      @PathVariable String emailId) {
+  
+  // Endpoint to send an invite email
+  @GetMapping("/invite/{emailId}")
+  public void sendInviteEmail(@PathVariable String emailId) {
+    logger.debug("Sending Reset Password Email, emailId: {}", emailId);
 
-    User user = new User();
-    user.setFirstName(first);
-    user.setLastName(last);
-    user.setUsername(username);
-    user.setPassword(password);
-    user.setEmailId(emailId);
-
-    return userService.createUser(user);
+    this.userService.sendInviteEmail(emailId);
   }
+  
+  
+  // Endpoint to complete signup by setting a password
+  @PostMapping("/signup/complete")
+  public void completeSignup(@RequestBody JsonNode json) {
+    String password = json.get("password").asText();
 
-  // Signup a new user
-  @PostMapping("/signup")
-  public User signup(@RequestBody User user) {
-    // Log debug message for user signup
-    logger.debug("Signing up, username: {}", user.getUsername());
+    logger.debug("Completing signup for user with password: {}", password);
 
-    // Pass the user object to the signup method in UserService
-    return this.userService.signup(user);
+    this.userService.completeSignup(password);
   }
+  
+  
 
   @PostMapping("/login")
   public ResponseEntity<User> login(@RequestBody User user) {
@@ -88,23 +80,14 @@ public class UserController {
     return new ResponseEntity<>(user, jwtHeader, OK);
   }
 
-  // Endpoint to send an invite email
-  @GetMapping("/invite/{emailId}")
-  public void sendInviteEmail(@PathVariable String emailId) {
-    logger.debug("Sending Reset Password Email, emailId: {}", emailId);
+  @PostMapping("/update/profile")
+  public User updateUserProfile(@RequestBody Profile profile) {
 
-    this.userService.sendInviteEmail(emailId);
+    logger.debug("Updating User Profile Data, Profile: {}", profile.toString());
+
+    return this.userService.updateUserProfile(profile);
   }
 
-  // Endpoint to complete signup by setting a password
-  @PostMapping("/signup/complete")
-  public void completeSignup(@RequestBody JsonNode json) {
-    String password = json.get("password").asText();
-
-    logger.debug("Completing signup for user with password: {}", password);
-
-    this.userService.completeSignup(password);
-  }
 
   @GetMapping("/reset/{emailId}")
   public void sendResetPasswordEmail(@PathVariable String emailId) {
@@ -138,17 +121,13 @@ public class UserController {
     return this.userService.updateUser(user);
   }
 
-  @PostMapping("/update/profile")
-  public User updateUserProfile(@RequestBody Profile profile) {
-
-    logger.debug("Updating User Profile Data, Profile: {}", profile.toString());
-
-    return this.userService.updateUserProfile(profile);
-  }
-
+  
   @DeleteMapping("/delete")
   public void deleteUser() {
     logger.debug("Deleting user account.");
     this.userService.deleteUser();
   }
+
+
+
 }
