@@ -28,8 +28,8 @@ jobs:
           SPRING_PROFILES_ACTIVE: test
         run: mvn -B clean test --file backend/pom.xml
 
-      - name: Publish test results
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        with:
-          files: "/surefire-reports/TEST-*.xml"
-          format: junit
+     # - name: Publish test results
+     #   uses: EnricoMi/publish-unit-test-result-action@v1
+      #  with:
+       #   files: "/surefire-reports/TEST-*.xml"
+        #  format: junit
