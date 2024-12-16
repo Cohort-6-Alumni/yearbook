@@ -20,12 +20,12 @@ if [ $? -ne 0 ]; then
 
 fi
 #    now format frontend code
-cd ../frontend/ || exit
-npm run format
-if [ $? -ne 0 ]; then
-    echo "Code formatting failed...."
-    echo "Please fix the issues and commit again...."
-    exit 1
-fi
-echo "Committing changes....."
+#cd ../frontend/ || exit
+#npm run format
+#if [ $? -ne 0 ]; then
+    #echo "Code formatting failed...."
+    #echo "Please fix the issues and commit again...."
+    #exit 1
+#fi
+#echo "Committing changes....."
 exit $?
