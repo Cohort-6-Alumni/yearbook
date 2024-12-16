@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 @EnableWebSecurity
@@ -57,7 +58,8 @@ public class WebSecurityConfig {
         .toArray(RequestMatcher[]::new);
   }
 
-  @Bean("test")
+  @Bean
+  @Profile("test")
   SecurityFilterChain securityFilterChainTest(HttpSecurity http, MvcRequestMatcher.Builder mvc)
       throws Exception {
 
