@@ -2,9 +2,7 @@ package com.obsidi.yearbook.service;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-import com.obsidi.yearbook.exception.domain.EmailExistException;
-import com.obsidi.yearbook.exception.domain.UserNotFoundException;
-import com.obsidi.yearbook.exception.domain.UsernameExistException;
+import com.obsidi.yearbook.exception.domain.*;
 import com.obsidi.yearbook.jpa.Profile;
 import com.obsidi.yearbook.jpa.User;
 import com.obsidi.yearbook.provider.ResourceProvider;
@@ -27,22 +25,29 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import static com.obsidi.yearbook.constants.Constants.ADMIN;
 
 @Service
 public class UserService {
 
   final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  @Autowired private UserRepository userRepository;
-  @Autowired PasswordEncoder passwordEncoder;
+  @Autowired
+  private UserRepository userRepository;
+  @Autowired
+  PasswordEncoder passwordEncoder;
 
-  @Autowired EmailService emailService;
+  @Autowired
+  EmailService emailService;
 
-  @Autowired AuthenticationManager authenticationManager;
+  @Autowired
+  AuthenticationManager authenticationManager;
 
-  @Autowired JwtService jwtService;
+  @Autowired
+  JwtService jwtService;
 
-  @Autowired ResourceProvider provider;
+  @Autowired
+  ResourceProvider provider;
 
   // Fetch all users
   public List<User> listUsers() {
@@ -181,13 +186,11 @@ public class UserService {
 
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-    User user =
-        this.userRepository
-            .findByUsername(username)
-            .orElseThrow(
-                () ->
-                    new UserNotFoundException(
-                        String.format("Username doesn't exist, %s", username)));
+    User user = this.userRepository
+        .findByUsername(username)
+        .orElseThrow(
+            () -> new UserNotFoundException(
+                String.format("Username doesn't exist, %s", username)));
 
     user.setPassword(this.passwordEncoder.encode(password));
 
@@ -216,6 +219,25 @@ public class UserService {
     }
   }
 
+  public void sendInvite(String emailId) {
+    // Retrieve the username from the SecurityContext
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    // Find the user by username
+    User user = userRepository
+        .findByUsername(username)
+        .orElseThrow(
+            () -> new UserNotFoundException(
+                String.format("User not found for username: %s", username)));
+
+    // check if user is admin role
+    if (!user.getRole().equals(ADMIN)) {
+      throw new NotEnoughPermissionException(String.format("User not Admin: %s", username));
+    }
+
+    this.sendInviteEmail(emailId);
+
+  }
+
   public void sendInviteEmail(String emailId) {
     // Retrieve the user by emailId
     Optional<User> opt = this.userRepository.findByEmailId(emailId);
@@ -224,22 +246,21 @@ public class UserService {
       // Call the sendInviteMail method in EmailService
       this.emailService.sendInviteMail(opt.get());
     } else {
-      logger.debug("Email doesn't exist: {}", emailId);
+      throw new EmailNotFoundException(String.format("Email doesn't exist: %s", emailId));
+
     }
   }
 
   public void completeSignup(String password) {
     // Retrieve the username from the SecurityContext
-    String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
+//    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    String username = "louisan42";
     // Find the user by username
-    User user =
-        userRepository
-            .findByUsername(username)
-            .orElseThrow(
-                () ->
-                    new UserNotFoundException(
-                        String.format("User not found for username: %s", username)));
+    User user = userRepository
+        .findByUsername(username)
+        .orElseThrow(
+            () -> new UserNotFoundException(
+                String.format("User not found for username: %s", username)));
 
     // Check if the user already has a password set
     if (user.getPassword() != null) {
@@ -304,13 +325,11 @@ public class UserService {
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
     // Fetch the user from the repository
-    User user =
-        this.userRepository
-            .findByUsername(username)
-            .orElseThrow(
-                () ->
-                    new UserNotFoundException(
-                        String.format("Username doesn't exist, %s", username)));
+    User user = this.userRepository
+        .findByUsername(username)
+        .orElseThrow(
+            () -> new UserNotFoundException(
+                String.format("Username doesn't exist, %s", username)));
 
     // Delete the user from the repository
     this.userRepository.delete(user);

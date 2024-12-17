@@ -1,21 +1,19 @@
 # JWT Configuration
 jwt:
   secret: ${JWT_SECRET}
-  expiration: 86_400_000 # 24 hours
+  expiration: 3_600_000 # 1 hour
   issuer: 'Academy Cohort 6'
   audience: yearbook
   prefix: 'Bearer '
   excluded.urls: >
     /user/login,
-    /user/signup,
     /user/reset/*,
     /test/**,
     /actuator/**,
     /error,
-    /user/invite/*
 # Client Configuration
 client:
-  url: http://localhost:3000
+  url: https://obsidialumniyearbook.com
   email:
     verify:
       param: user/verifyEmail
