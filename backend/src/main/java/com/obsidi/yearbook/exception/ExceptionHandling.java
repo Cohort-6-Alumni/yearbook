@@ -14,6 +14,7 @@ import com.obsidi.yearbook.exception.domain.EmailExistException;
 import com.obsidi.yearbook.exception.domain.EmailNotFoundException;
 import com.obsidi.yearbook.exception.domain.EmailNotVerifiedException;
 import com.obsidi.yearbook.exception.domain.LikeExistException;
+import com.obsidi.yearbook.exception.domain.NotEnoughPermissionException;
 import com.obsidi.yearbook.exception.domain.ProfileNotFoundException;
 import com.obsidi.yearbook.exception.domain.ProfileNotUserException;
 import com.obsidi.yearbook.exception.domain.UserNotFoundException;
@@ -160,6 +161,12 @@ public class ExceptionHandling implements ErrorController {
   public ResponseEntity<HttpResponse> notFoundException(NoResultException exception) {
     logger.error(exception.getMessage());
     return this.createHttpResponse(NOT_FOUND, exception.getMessage());
+  }
+
+  @ExceptionHandler(NotEnoughPermissionException.class)
+  public ResponseEntity<HttpResponse> notEnoughPermissionException(
+      NotEnoughPermissionException exception) {
+    return this.createHttpResponse(FORBIDDEN, exception.getMessage());
   }
 
   @GetMapping(ERROR_PATH)

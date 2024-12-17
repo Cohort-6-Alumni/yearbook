@@ -2,7 +2,9 @@ package com.obsidi.yearbook.security;
 
 import com.obsidi.yearbook.jpa.User;
 import java.util.Collection;
+import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
@@ -20,8 +22,8 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-
-    return null;
+    // Map the user's role to a GrantedAuthority
+    return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
   }
 
   @Override

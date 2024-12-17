@@ -1,10 +1,9 @@
 package com.obsidi.yearbook.service;
 
+import static com.obsidi.yearbook.constants.Constants.ADMIN;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-import com.obsidi.yearbook.exception.domain.EmailExistException;
-import com.obsidi.yearbook.exception.domain.UserNotFoundException;
-import com.obsidi.yearbook.exception.domain.UsernameExistException;
+import com.obsidi.yearbook.exception.domain.*;
 import com.obsidi.yearbook.jpa.Profile;
 import com.obsidi.yearbook.jpa.User;
 import com.obsidi.yearbook.provider.ResourceProvider;
@@ -216,6 +215,26 @@ public class UserService {
     }
   }
 
+  public void sendInvite(String emailId) {
+    // Retrieve the username from the SecurityContext
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    // Find the user by username
+    User user =
+        userRepository
+            .findByUsername(username)
+            .orElseThrow(
+                () ->
+                    new UserNotFoundException(
+                        String.format("User not found for username: %s", username)));
+
+    // check if user is admin role
+    if (!user.getRole().equals(ADMIN)) {
+      throw new NotEnoughPermissionException(String.format("User not Admin: %s", username));
+    }
+
+    this.sendInviteEmail(emailId);
+  }
+
   public void sendInviteEmail(String emailId) {
     // Retrieve the user by emailId
     Optional<User> opt = this.userRepository.findByEmailId(emailId);
@@ -224,14 +243,14 @@ public class UserService {
       // Call the sendInviteMail method in EmailService
       this.emailService.sendInviteMail(opt.get());
     } else {
-      logger.debug("Email doesn't exist: {}", emailId);
+      throw new EmailNotFoundException(String.format("Email doesn't exist: %s", emailId));
     }
   }
 
   public void completeSignup(String password) {
     // Retrieve the username from the SecurityContext
-    String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
+    //    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    String username = "louisan42";
     // Find the user by username
     User user =
         userRepository
