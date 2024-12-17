@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.obsidi.yearbook.jpa.Profile;
 import com.obsidi.yearbook.jpa.User;
 import com.obsidi.yearbook.service.UserService;
-import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +28,7 @@ public class UserController {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  @Autowired
-  private UserService userService;
+  @Autowired private UserService userService;
 
   // List all users
   // @GetMapping("/")

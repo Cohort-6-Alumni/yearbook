@@ -1,10 +1,8 @@
 package com.obsidi.yearbook.constants;
 
 public class Constants {
-  final static public String USER="user";
-  final static public String ADMIN="admin";
+  public static final String USER = "user";
+  public static final String ADMIN = "admin";
 
-  private Constants() {
-  }
-
+  private Constants() {}
 }
