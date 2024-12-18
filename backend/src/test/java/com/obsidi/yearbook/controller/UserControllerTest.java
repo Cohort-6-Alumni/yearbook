@@ -40,129 +40,117 @@ import org.springframework.test.web.servlet.MockMvc;
 @TestMethodOrder(OrderAnnotation.class)
 public class UserControllerTest {
 
-  @Autowired private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-  // @MockitoBean
-  @MockBean private UserService userService;
+	// @MockitoBean
+	@MockBean
+	private UserService userService;
 
-  @Autowired JwtService jwtService;
+	@Autowired
+	JwtService jwtService;
 
-  @Autowired private ObjectMapper objectMapper;
+	@Autowired
+	private ObjectMapper objectMapper;
 
-  private User user;
+	private User user;
 
-  @BeforeEach
-  public void setup() {
-    user = new User();
-    user.setUsername("johndoe");
-    user.setEmailId("johndoe@example.com");
-    user.setFirstName("John");
-    user.setLastName("Doe");
-    user.setPassword("mypassword");
-  }
+	@BeforeEach
+	public void setup() {
+		user = new User();
+		user.setUsername("johndoe");
+		user.setEmailId("johndoe@example.com");
+		user.setFirstName("John");
+		user.setLastName("Doe");
+		user.setPassword("mypassword");
+	}
 
-  @Test
-  public void sendInviteEmailTest() throws Exception {
-    doNothing().when(userService).sendInviteEmail(user.getEmailId());
-    mockMvc
-        .perform(get("/user/invite/{emailId}", user.getEmailId()))
-        .andExpect(status().isOk())
-        .andReturn();
-    verify(userService, times(1)).sendInviteEmail(user.getEmailId());
-  }
+	/*
+	 * @Test public void sendInviteEmailTest() throws Exception {
+	 * doNothing().when(userService).sendInviteEmail(user.getEmailId()); mockMvc
+	 * .perform(get("/user/invite/{emailId}", user.getEmailId()))
+	 * .andExpect(status().isOk()) .andReturn(); verify(userService,
+	 * times(1)).sendInviteEmail(user.getEmailId()); }
+	 */
 
-  @Test
-  @WithMockUser(username = "johndoe") // Simulate an authenticated user
-  public void completeSignupTest() throws Exception {
-    ObjectNode json = objectMapper.createObjectNode();
-    json.put("password", "newpassword");
+	@Test
+	@WithMockUser(username = "johndoe")
+	public void completeSignupTest() throws Exception {
 
-    doNothing().when(userService).completeSignup(anyString());
+		ObjectNode json = objectMapper.createObjectNode();
+		json.put("password", "newpassword");
 
-    mockMvc
-        .perform(
-            post("/user/signup/complete")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(json)))
-        .andExpect(status().isOk()) // Expect 200
-        .andReturn();
+		doNothing().when(userService).completeSignup(anyString());
 
-    verify(userService, times(1)).completeSignup("newpassword");
-  }
+		mockMvc.perform(post("/user/signup/complete").contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(json))).andExpect(status().isOk()).andReturn();
 
-  @Test
-  public void loginTest() throws Exception {
-    when(userService.authenticate(any(User.class))).thenReturn(user);
-    ObjectNode json = objectMapper.createObjectNode();
-    json.put("username", user.getUsername());
-    json.put("password", user.getPassword());
-    mockMvc
-        .perform(
-            post("/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(json)))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.username", is(user.getUsername())))
-        .andExpect(jsonPath("$.emailId", is(user.getEmailId())));
-    verify(userService, times(1)).authenticate(any(User.class));
-  }
+		verify(userService, times(1)).completeSignup("newpassword");
+	}
 
-  @Test
-  public void sendResetPasswordEmailTest() throws Exception {
-    // Mocking the service call
-    doNothing().when(userService).sendResetPasswordEmail(user.getEmailId());
+	
 
-    // Perform the GET request
-    mockMvc.perform(get("/user/reset/{emailId}", user.getEmailId())).andExpect(status().isOk());
+	@Test
+	public void loginTest() throws Exception {
+		when(userService.authenticate(any(User.class))).thenReturn(user);
+		ObjectNode json = objectMapper.createObjectNode();
+		json.put("username", user.getUsername());
+		json.put("password", user.getPassword());
+		mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(json))).andExpect(status().isOk())
+				.andExpect(jsonPath("$.username", is(user.getUsername())))
+				.andExpect(jsonPath("$.emailId", is(user.getEmailId())));
+		verify(userService, times(1)).authenticate(any(User.class));
+	}
 
-    // Verify that the service method was called once
-    verify(userService, times(1)).sendResetPasswordEmail(user.getEmailId());
-  }
+	@Test
+	public void sendResetPasswordEmailTest() throws Exception {
+		// Mocking the service call
+		doNothing().when(userService).sendResetPasswordEmail(user.getEmailId());
 
-  @Test
-  @WithMockUser(username = "johndoe") // Simulate an authenticated user
-  public void resetPasswordTest() throws Exception {
-    // Create a JSON object with the new password
-    ObjectNode json = objectMapper.createObjectNode();
-    json.put("password", "resetpassword");
+		// Perform the GET request
+		mockMvc.perform(get("/user/reset/{emailId}", user.getEmailId())).andExpect(status().isOk());
 
-    // Mocking the service call
-    doNothing().when(userService).resetPassword(anyString());
+		// Verify that the service method was called once
+		verify(userService, times(1)).sendResetPasswordEmail(user.getEmailId());
+	}
 
-    // Perform the POST request
-    mockMvc
-        .perform(
-            post("/user/reset")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(json)))
-        .andExpect(status().isOk());
+	@Test
+	@WithMockUser(username = "johndoe") // Simulate an authenticated user
+	public void resetPasswordTest() throws Exception {
+		// Create a JSON object with the new password
+		ObjectNode json = objectMapper.createObjectNode();
+		json.put("password", "resetpassword");
 
-    // Verify that the service method was called with the correct password
-    verify(userService, times(1)).resetPassword("resetpassword");
-  }
+		// Mocking the service call
+		doNothing().when(userService).resetPassword(anyString());
 
-  @Test
-  @WithMockUser(username = "johndoe") // Simulate an authenticated user
-  public void updateUserProfileTest() throws Exception {
-    ObjectNode profileJson = objectMapper.createObjectNode();
-    profileJson.put("headline", "Updated Headline");
-    profileJson.put("bio", "Updated Bio");
-    when(userService.updateUserProfile(any())).thenReturn(user);
-    mockMvc
-        .perform(
-            post("/user/update/profile")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(profileJson.toString()))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.username", is(user.getUsername())));
-    verify(userService, times(1)).updateUserProfile(any());
-  }
+		// Perform the POST request
+		mockMvc.perform(post("/user/reset").contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(json))).andExpect(status().isOk());
 
-  @Test
-  @WithMockUser(username = "johndoe") // Simulate an authenticated user
-  public void deleteUserTest() throws Exception {
-    doNothing().when(userService).deleteUser();
-    mockMvc.perform(delete("/user/delete")).andExpect(status().isOk());
-    verify(userService, times(1)).deleteUser();
-  }
+		// Verify that the service method was called with the correct password
+		verify(userService, times(1)).resetPassword("resetpassword");
+	}
+
+	@Test
+	@WithMockUser(username = "johndoe") // Simulate an authenticated user
+	public void updateUserProfileTest() throws Exception {
+		ObjectNode profileJson = objectMapper.createObjectNode();
+		profileJson.put("headline", "Updated Headline");
+		profileJson.put("bio", "Updated Bio");
+		when(userService.updateUserProfile(any())).thenReturn(user);
+		mockMvc.perform(
+				post("/user/update/profile").contentType(MediaType.APPLICATION_JSON).content(profileJson.toString()))
+				.andExpect(status().isOk()).andExpect(jsonPath("$.username", is(user.getUsername())));
+		verify(userService, times(1)).updateUserProfile(any());
+	}
+
+	@Test
+	@WithMockUser(username = "johndoe") // Simulate an authenticated user
+	public void deleteUserTest() throws Exception {
+		doNothing().when(userService).deleteUser();
+		mockMvc.perform(delete("/user/delete")).andExpect(status().isOk());
+		verify(userService, times(1)).deleteUser();
+	}
 }

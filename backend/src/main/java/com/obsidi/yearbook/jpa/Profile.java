@@ -32,6 +32,8 @@ public class Profile implements Serializable {
   private String interests;
   private String hobbies;
   private String headline;
+  private String instagram;
+  private String linkedln;
 
   @Column(name = "\"favoriteCodingSnack\"")
   private String favoriteCodingSnack;
@@ -56,6 +58,9 @@ public class Profile implements Serializable {
 
   @Column(name = "\"lastWords\"")
   private String lastWords;
+  
+  @Column(name = "\"previousFields\"")
+  private String previousFields;
 
   @Column(columnDefinition = "TEXT")
   private String picture;
@@ -73,212 +78,177 @@ public class Profile implements Serializable {
   @Column(name = "\"updatedOn\"")
   private Timestamp updatedOn;
 
-  public Timestamp getUpdatedOn() {
-    return updatedOn;
-  }
+public UUID getProfileId() {
+	return profileId;
+}
 
-  public void setUpdatedOn(Timestamp updatedOn) {
-    this.updatedOn = updatedOn;
-  }
+public void setProfileId(UUID profileId) {
+	this.profileId = profileId;
+}
 
-  public Instant getCreatedOn() {
-    return createdOn;
-  }
+public String getBio() {
+	return bio;
+}
 
-  public void setCreatedOn(Instant createdOn) {
-    this.createdOn = createdOn;
-  }
+public void setBio(String bio) {
+	this.bio = bio;
+}
 
-  public Profile() {}
+public String getInterests() {
+	return interests;
+}
 
-  public UUID getProfileId() {
-    return profileId;
-  }
+public void setInterests(String interests) {
+	this.interests = interests;
+}
 
-  public void setProfileId(UUID profileId) {
-    this.profileId = profileId;
-  }
+public String getHobbies() {
+	return hobbies;
+}
 
-  public String getBio() {
-    return bio;
-  }
+public void setHobbies(String hobbies) {
+	this.hobbies = hobbies;
+}
 
-  public void setBio(String bio) {
-    this.bio = bio;
-  }
+public String getHeadline() {
+	return headline;
+}
 
-  public String getInterests() {
-    return interests;
-  }
+public void setHeadline(String headline) {
+	this.headline = headline;
+}
 
-  public void setInterests(String interests) {
-    this.interests = interests;
-  }
+public String getInstagram() {
+	return instagram;
+}
 
-  public String getHobbies() {
-    return hobbies;
-  }
+public void setInstagram(String instagram) {
+	this.instagram = instagram;
+}
 
-  public void setHobbies(String hobbies) {
-    this.hobbies = hobbies;
-  }
+public String getLinkedln() {
+	return linkedln;
+}
 
-  public String getHeadline() {
-    return headline;
-  }
+public void setLinkedln(String linkedln) {
+	this.linkedln = linkedln;
+}
 
-  public void setHeadline(String headline) {
-    this.headline = headline;
-  }
+public String getFavoriteCodingSnack() {
+	return favoriteCodingSnack;
+}
 
-  public String getFavoriteCodingSnack() {
-    return favoriteCodingSnack;
-  }
+public void setFavoriteCodingSnack(String favoriteCodingSnack) {
+	this.favoriteCodingSnack = favoriteCodingSnack;
+}
 
-  public void setFavoriteCodingSnack(String favoriteCodingSnack) {
-    this.favoriteCodingSnack = favoriteCodingSnack;
-  }
+public String getFavoriteQuote() {
+	return favoriteQuote;
+}
 
-  public String getFavoriteQuote() {
-    return favoriteQuote;
-  }
+public void setFavoriteQuote(String favoriteQuote) {
+	this.favoriteQuote = favoriteQuote;
+}
 
-  public void setFavoriteQuote(String favoriteQuote) {
-    this.favoriteQuote = favoriteQuote;
-  }
+public String getMostLikelyTo() {
+	return mostLikelyTo;
+}
 
-  public String getMostLikelyTo() {
-    return mostLikelyTo;
-  }
+public void setMostLikelyTo(String mostLikelyTo) {
+	this.mostLikelyTo = mostLikelyTo;
+}
 
-  public void setMostLikelyTo(String mostLikelyTo) {
-    this.mostLikelyTo = mostLikelyTo;
-  }
+public String getMostMemorableBootcampMoment() {
+	return mostMemorableBootcampMoment;
+}
 
-  public String getMostMemorableBootcampMoment() {
-    return mostMemorableBootcampMoment;
-  }
+public void setMostMemorableBootcampMoment(String mostMemorableBootcampMoment) {
+	this.mostMemorableBootcampMoment = mostMemorableBootcampMoment;
+}
 
-  public void setMostMemorableBootcampMoment(String mostMemorableBootcampMoment) {
-    this.mostMemorableBootcampMoment = mostMemorableBootcampMoment;
-  }
+public String getAdviceForFutureCohort() {
+	return adviceForFutureCohort;
+}
 
-  public String getAdviceForFutureCohort() {
-    return adviceForFutureCohort;
-  }
+public void setAdviceForFutureCohort(String adviceForFutureCohort) {
+	this.adviceForFutureCohort = adviceForFutureCohort;
+}
 
-  public void setAdviceForFutureCohort(String adviceForFutureCohort) {
-    this.adviceForFutureCohort = adviceForFutureCohort;
-  }
+public String getBiggestChallenge() {
+	return biggestChallenge;
+}
 
-  public String getBiggestChallenge() {
-    return biggestChallenge;
-  }
+public void setBiggestChallenge(String biggestChallenge) {
+	this.biggestChallenge = biggestChallenge;
+}
 
-  public void setBiggestChallenge(String biggestChallenge) {
-    this.biggestChallenge = biggestChallenge;
-  }
+public String getHowYouOvercameIt() {
+	return howYouOvercameIt;
+}
 
-  public String getHowYouOvercameIt() {
-    return howYouOvercameIt;
-  }
+public void setHowYouOvercameIt(String howYouOvercameIt) {
+	this.howYouOvercameIt = howYouOvercameIt;
+}
 
-  public void setHowYouOvercameIt(String howYouOvercameIt) {
-    this.howYouOvercameIt = howYouOvercameIt;
-  }
+public String getLastWords() {
+	return lastWords;
+}
 
-  public String getLastWords() {
-    return lastWords;
-  }
+public void setLastWords(String lastWords) {
+	this.lastWords = lastWords;
+}
 
-  public void setLastWords(String lastWords) {
-    this.lastWords = lastWords;
-  }
+public String getPreviousFields() {
+	return previousFields;
+}
 
-  public String getPicture() {
-    return picture;
-  }
+public void setPreviousFields(String previousFields) {
+	this.previousFields = previousFields;
+}
 
-  public void setPicture(String picture) {
-    this.picture = picture;
-  }
+public String getPicture() {
+	return picture;
+}
 
-  public User getUser() {
-    return user;
-  }
+public void setPicture(String picture) {
+	this.picture = picture;
+}
 
-  public void setUser(User user) {
-    this.user = user;
-  }
+public User getUser() {
+	return user;
+}
 
-  @Override
-  public String toString() {
-    return "Profile [profileId="
-        + profileId
-        + ", bio="
-        + bio
-        + ", interests="
-        + interests
-        + ", hobbies="
-        + hobbies
-        + ", headline="
-        + headline
-        + ", favoriteCodingSnack="
-        + favoriteCodingSnack
-        + ", favoriteQuote="
-        + favoriteQuote
-        + ", mostLikelyTo="
-        + mostLikelyTo
-        + ", mostMemorableBootcampMoment="
-        + mostMemorableBootcampMoment
-        + ", adviceForFutureCohort="
-        + adviceForFutureCohort
-        + ", biggestChallenge="
-        + biggestChallenge
-        + ", howYouOvercameIt="
-        + howYouOvercameIt
-        + ", lastWords="
-        + lastWords
-        + ", picture="
-        + picture
-        + ", user="
-        + user
-        + ", getProfileId()="
-        + getProfileId()
-        + ", getBio()="
-        + getBio()
-        + ", getInterests()="
-        + getInterests()
-        + ", getHobbies()="
-        + getHobbies()
-        + ", getHeadline()="
-        + getHeadline()
-        + ", getFavoriteCodingSnack()="
-        + getFavoriteCodingSnack()
-        + ", getFavoriteQuote()="
-        + getFavoriteQuote()
-        + ", getMostLikelyTo()="
-        + getMostLikelyTo()
-        + ", getMostMemorableBootcampMoment()="
-        + getMostMemorableBootcampMoment()
-        + ", getAdviceForFutureCohort()="
-        + getAdviceForFutureCohort()
-        + ", getBiggestChallenge()="
-        + getBiggestChallenge()
-        + ", getHowYouOvercameIt()="
-        + getHowYouOvercameIt()
-        + ", getLastWords()="
-        + getLastWords()
-        + ", getPicture()="
-        + getPicture()
-        + ", getUser()="
-        + getUser()
-        + ", getClass()="
-        + getClass()
-        + ", hashCode()="
-        + hashCode()
-        + ", toString()="
-        + super.toString()
-        + "]";
-  }
+public void setUser(User user) {
+	this.user = user;
+}
+
+public Instant getCreatedOn() {
+	return createdOn;
+}
+
+public void setCreatedOn(Instant createdOn) {
+	this.createdOn = createdOn;
+}
+
+public Timestamp getUpdatedOn() {
+	return updatedOn;
+}
+
+public void setUpdatedOn(Timestamp updatedOn) {
+	this.updatedOn = updatedOn;
+}
+
+@Override
+public String toString() {
+	return "Profile [profileId=" + profileId + ", bio=" + bio + ", interests=" + interests + ", hobbies=" + hobbies
+			+ ", headline=" + headline + ", instagram=" + instagram + ", linkedln=" + linkedln
+			+ ", favoriteCodingSnack=" + favoriteCodingSnack + ", favoriteQuote=" + favoriteQuote + ", mostLikelyTo="
+			+ mostLikelyTo + ", mostMemorableBootcampMoment=" + mostMemorableBootcampMoment + ", adviceForFutureCohort="
+			+ adviceForFutureCohort + ", biggestChallenge=" + biggestChallenge + ", howYouOvercameIt="
+			+ howYouOvercameIt + ", lastWords=" + lastWords + ", previousFields=" + previousFields + ", picture="
+			+ picture + ", user=" + user + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + "]";
+}
+
+ 
+
 }
