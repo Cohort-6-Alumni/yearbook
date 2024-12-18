@@ -249,7 +249,7 @@ public class UserService {
 
   public void completeSignup(String password) {
     // Retrieve the username from the SecurityContext
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
     // Find the user by username
     User user =
         userRepository
@@ -293,7 +293,7 @@ public class UserService {
       this.updateValue(profile::getBiggestChallenge, currentProfile::setBiggestChallenge);
       this.updateValue(profile::getHowYouOvercameIt, currentProfile::setHowYouOvercameIt);
       this.updateValue(profile::getLastWords, currentProfile::setLastWords);
-      this.updateValue(profile::getPreviousFields, currentProfile::setPreviousFields);
+      this.updateValue(profile::getPreviousField, currentProfile::setPreviousField);
       this.updateValue(profile::getLinkedln, currentProfile::setLinkedln);
       this.updateValue(profile::getInstagram, currentProfile::setInstagram);
       this.updateTimestamp(() -> Timestamp.from(Instant.now()), currentProfile::setUpdatedOn);
