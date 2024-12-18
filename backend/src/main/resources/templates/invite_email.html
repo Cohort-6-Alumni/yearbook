@@ -14,12 +14,13 @@
     
     <div>Hi <b th:text="${user.firstName} + ' ' + ${user.lastName}"></b>!</div>
     <div>
+        <p>class="mb-4">Your username is <b th:text="${user.username}"></b>.</p>
         <p>Click the following link to complete your profile for yearbook signup.</p>
         <p th:text="${client} + '/' + ${param} + '?token=' + ${token}"></p>
         <p>This link is valid for 48 hours.</p>
         <p>We can't wait to get inspired by your Obsidi experience</p>
         <p>Need help or have questions?</p>
-        <p>Reach out to Amy, Louis or Dolapo 
+        <p>Reach out to Amy, Louis or Adedolapo or send a mail to support@obsidialumniyearbook.com
         </p>
     </div>
     
