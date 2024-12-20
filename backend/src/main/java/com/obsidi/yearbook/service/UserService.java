@@ -3,18 +3,15 @@ package com.obsidi.yearbook.service;
 import static com.obsidi.yearbook.constants.Constants.ADMIN;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-import com.obsidi.yearbook.exception.domain.*;
-import com.obsidi.yearbook.jpa.Profile;
-import com.obsidi.yearbook.jpa.User;
-import com.obsidi.yearbook.provider.ResourceProvider;
-import com.obsidi.yearbook.repository.UserRepository;
-import com.obsidi.yearbook.security.JwtService;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +23,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import com.obsidi.yearbook.exception.domain.EmailExistException;
+import com.obsidi.yearbook.exception.domain.EmailNotFoundException;
+import com.obsidi.yearbook.exception.domain.NotEnoughPermissionException;
+import com.obsidi.yearbook.exception.domain.ProfileNotFoundException;
+import com.obsidi.yearbook.exception.domain.UserNotFoundException;
+import com.obsidi.yearbook.exception.domain.UsernameExistException;
+import com.obsidi.yearbook.jpa.Profile;
+import com.obsidi.yearbook.jpa.User;
+import com.obsidi.yearbook.provider.ResourceProvider;
+import com.obsidi.yearbook.repository.UserRepository;
+import com.obsidi.yearbook.security.JwtService;
 
 @Service
 public class UserService {
@@ -113,6 +122,31 @@ public class UserService {
         .map(this.passwordEncoder::encode)
         .ifPresent(setter);
   }
+  
+  //public List<Profile> getAllProfiles() {
+	    // Fetch all users and extract their profiles
+	  //  return userRepository.findAll().stream()
+	      //  .map(User::getProfile) // Extract the profile from each user
+	       // .filter(Objects::nonNull) // Exclude users without profiles
+	      //  .collect(Collectors.toList()); // Collect into a list
+	//}
+  
+  public List<Profile> getAllProfiles() {
+	    
+	    List<Profile> profiles = userRepository.findAll().stream()
+	        .map(User::getProfile) 
+	        .filter(Objects::nonNull) 
+	        .collect(Collectors.toList()); 
+
+	    // Throw exception if no profiles are found
+	    if (profiles.isEmpty()) {
+	        throw new ProfileNotFoundException("No profiles found in the database.");
+	    }
+
+	    return profiles;
+	}
+
+
 
   private void updateTimestamp(Supplier<Timestamp> getter, Consumer<Timestamp> setter) {
     Optional.ofNullable(getter.get()).ifPresent(setter);
