@@ -1,5 +1,6 @@
 package com.obsidi.yearbook.jpa;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -55,7 +56,8 @@ public class User implements Serializable {
   @Column(name = "\"createdOn\"")
   private Timestamp createdOn;
 
-  @JsonInclude(Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonIgnoreProperties({"user"})
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Profile profile;
 
