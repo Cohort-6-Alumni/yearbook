@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,8 +42,8 @@ public class UserController {
   // }
   
   @GetMapping("/profiles")
-  public List<Profile> getAllProfiles() { 
-      return userService.getAllProfiles(); 
+  public Page<Profile> getAllProfiles(Pageable pageable) {
+      return userService.getAllProfiles(pageable);
   }
 
 

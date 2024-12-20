@@ -1,6 +1,7 @@
 package com.obsidi.yearbook.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +34,9 @@ public class Profile implements Serializable {
   private String hobbies;
   private String headline;
   private String instagram;
-  private String linkedln;
+
+  @Column(name = "\"linkedIn\"")
+  private String linkedIn;
 
   @Column(name = "\"favoriteCodingSnack\"")
   private String favoriteCodingSnack;
@@ -66,7 +69,7 @@ public class Profile implements Serializable {
   private String picture;
 
   @OneToOne
-  @JsonIgnore
+  @JsonIgnoreProperties({"profile"})
   @JoinColumn(name = "\"userId\"")
   private User user;
 
@@ -126,12 +129,12 @@ public class Profile implements Serializable {
     this.instagram = instagram;
   }
 
-  public String getLinkedln() {
-    return linkedln;
+  public String getLinkedIn() {
+    return linkedIn;
   }
 
-  public void setLinkedln(String linkedln) {
-    this.linkedln = linkedln;
+  public void setLinkedIn(String linkedIn) {
+    this.linkedIn = linkedIn;
   }
 
   public String getFavoriteCodingSnack() {
@@ -252,8 +255,8 @@ public class Profile implements Serializable {
         + headline
         + ", instagram="
         + instagram
-        + ", linkedln="
-        + linkedln
+        + ", linkedIn="
+        + linkedIn
         + ", favoriteCodingSnack="
         + favoriteCodingSnack
         + ", favoriteQuote="

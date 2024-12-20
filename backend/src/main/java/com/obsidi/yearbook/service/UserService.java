@@ -6,15 +6,16 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
+import com.obsidi.yearbook.repository.ProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,7 +28,6 @@ import org.springframework.util.StringUtils;
 import com.obsidi.yearbook.exception.domain.EmailExistException;
 import com.obsidi.yearbook.exception.domain.EmailNotFoundException;
 import com.obsidi.yearbook.exception.domain.NotEnoughPermissionException;
-import com.obsidi.yearbook.exception.domain.ProfileNotFoundException;
 import com.obsidi.yearbook.exception.domain.UserNotFoundException;
 import com.obsidi.yearbook.exception.domain.UsernameExistException;
 import com.obsidi.yearbook.jpa.Profile;
@@ -51,6 +51,8 @@ public class UserService {
   @Autowired JwtService jwtService;
 
   @Autowired ResourceProvider provider;
+
+  @Autowired ProfileRepository profileRepository;
 
   // Fetch all users
   public List<User> listUsers() {
@@ -131,19 +133,10 @@ public class UserService {
 	      //  .collect(Collectors.toList()); // Collect into a list
 	//}
   
-  public List<Profile> getAllProfiles() {
+  public Page<Profile> getAllProfiles(Pageable pageable) {
 	    
-	    List<Profile> profiles = userRepository.findAll().stream()
-	        .map(User::getProfile) 
-	        .filter(Objects::nonNull) 
-	        .collect(Collectors.toList()); 
 
-	    // Throw exception if no profiles are found
-	    if (profiles.isEmpty()) {
-	        throw new ProfileNotFoundException("No profiles found in the database.");
-	    }
-
-	    return profiles;
+	    return profileRepository.findAll(pageable);
 	}
 
 
@@ -328,7 +321,7 @@ public class UserService {
       this.updateValue(profile::getHowYouOvercameIt, currentProfile::setHowYouOvercameIt);
       this.updateValue(profile::getLastWords, currentProfile::setLastWords);
       this.updateValue(profile::getPreviousField, currentProfile::setPreviousField);
-      this.updateValue(profile::getLinkedln, currentProfile::setLinkedln);
+      this.updateValue(profile::getLinkedIn, currentProfile::setLinkedIn);
       this.updateValue(profile::getInstagram, currentProfile::setInstagram);
       this.updateTimestamp(() -> Timestamp.from(Instant.now()), currentProfile::setUpdatedOn);
 
