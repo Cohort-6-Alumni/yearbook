@@ -26,7 +26,7 @@ public class Profile implements Serializable {
   @Id
   @Column(name = "\"profileId\"", nullable = false, updatable = false)
   @GeneratedValue(strategy = GenerationType.UUID) // Use Hibernate's built-in strategy
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private UUID profileId;
 
   private String bio;
