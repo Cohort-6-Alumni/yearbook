@@ -11,7 +11,8 @@ jwt:
     /test/**,
     /actuator/**,
     /error,
-    /profiles
+    /profiles,
+    /profile/*
 # Client Configuration
 client:
   url: https://obsidialumniyearbook.com
