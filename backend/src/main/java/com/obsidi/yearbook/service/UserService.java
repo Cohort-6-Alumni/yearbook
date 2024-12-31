@@ -3,6 +3,18 @@ package com.obsidi.yearbook.service;
 import static com.obsidi.yearbook.constants.Constants.ADMIN;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+import com.obsidi.yearbook.exception.domain.EmailExistException;
+import com.obsidi.yearbook.exception.domain.EmailNotFoundException;
+import com.obsidi.yearbook.exception.domain.NotEnoughPermissionException;
+import com.obsidi.yearbook.exception.domain.ProfileNotFoundException;
+import com.obsidi.yearbook.exception.domain.UserNotFoundException;
+import com.obsidi.yearbook.exception.domain.UsernameExistException;
+import com.obsidi.yearbook.jpa.Profile;
+import com.obsidi.yearbook.jpa.User;
+import com.obsidi.yearbook.provider.ResourceProvider;
+import com.obsidi.yearbook.repository.ProfileRepository;
+import com.obsidi.yearbook.repository.UserRepository;
+import com.obsidi.yearbook.security.JwtService;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -10,7 +22,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +35,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import com.obsidi.yearbook.exception.domain.EmailExistException;
-import com.obsidi.yearbook.exception.domain.EmailNotFoundException;
-import com.obsidi.yearbook.exception.domain.NotEnoughPermissionException;
-import com.obsidi.yearbook.exception.domain.ProfileNotFoundException;
-import com.obsidi.yearbook.exception.domain.UserNotFoundException;
-import com.obsidi.yearbook.exception.domain.UsernameExistException;
-import com.obsidi.yearbook.jpa.Profile;
-import com.obsidi.yearbook.jpa.User;
-import com.obsidi.yearbook.provider.ResourceProvider;
-import com.obsidi.yearbook.repository.ProfileRepository;
-import com.obsidi.yearbook.repository.UserRepository;
-import com.obsidi.yearbook.security.JwtService;
 
 @Service
 public class UserService {
@@ -126,22 +124,19 @@ public class UserService {
         .map(this.passwordEncoder::encode)
         .ifPresent(setter);
   }
-  
-  //public List<Profile> getAllProfiles() {
-	    // Fetch all users and extract their profiles
-	  //  return userRepository.findAll().stream()
-	      //  .map(User::getProfile) // Extract the profile from each user
-	       // .filter(Objects::nonNull) // Exclude users without profiles
-	      //  .collect(Collectors.toList()); // Collect into a list
-	//}
-  
+
+  // public List<Profile> getAllProfiles() {
+  // Fetch all users and extract their profiles
+  //  return userRepository.findAll().stream()
+  //  .map(User::getProfile) // Extract the profile from each user
+  // .filter(Objects::nonNull) // Exclude users without profiles
+  //  .collect(Collectors.toList()); // Collect into a list
+  // }
+
   public Page<Profile> getAllProfiles(Pageable pageable) {
-	    
 
-	    return profileRepository.findAll(pageable);
-	}
-
-
+    return profileRepository.findAll(pageable);
+  }
 
   private void updateTimestamp(Supplier<Timestamp> getter, Consumer<Timestamp> setter) {
     Optional.ofNullable(getter.get()).ifPresent(setter);
@@ -153,6 +148,7 @@ public class UserService {
     this.updateValue(user::getLastName, currentUser::setLastName);
     this.updateValue(user::getEmailId, currentUser::setEmailId);
     this.updatePassword(user::getPassword, currentUser::setPassword);
+    this.updateValue(user::getPicture, currentUser::setPicture);
     this.updateTimestamp(() -> Timestamp.from(Instant.now()), currentUser::setUpdatedOn);
 
     return this.userRepository.save(currentUser);
@@ -368,12 +364,10 @@ public class UserService {
 
     logger.debug("User deleted successfully: {}", username);
   }
-  
 
   public Profile getProfileById(UUID profileId) {
-      return profileRepository.findById(profileId)
-          .orElseThrow(() -> new ProfileNotFoundException("Profile not found with ID: " + profileId));
+    return profileRepository
+        .findById(profileId)
+        .orElseThrow(() -> new ProfileNotFoundException("Profile not found with ID: " + profileId));
   }
-
-  
 }
