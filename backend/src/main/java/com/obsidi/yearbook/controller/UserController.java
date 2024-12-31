@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,4 +135,18 @@ public class UserController {
     logger.debug("Deleting user account.");
     this.userService.deleteUser();
   }
+  
+ // @GetMapping("/profile/{profileId}")
+ // public ResponseEntity<Profile> getProfileById(@PathVariable UUID profileId) {
+     // Profile profile = userService.getProfileById(profileId);
+      //return new ResponseEntity<>(profile, OK);
+ // }
+
+  @GetMapping("/profile/{profileId}")
+  public Profile getProfileById(@PathVariable UUID profileId) {
+      logger.debug("Fetching Profile by ID: {}", profileId);
+      return userService.getProfileById(profileId);
+  }
+
+  
 }

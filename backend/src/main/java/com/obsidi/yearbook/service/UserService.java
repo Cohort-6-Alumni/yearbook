@@ -7,10 +7,10 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.obsidi.yearbook.repository.ProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +28,13 @@ import org.springframework.util.StringUtils;
 import com.obsidi.yearbook.exception.domain.EmailExistException;
 import com.obsidi.yearbook.exception.domain.EmailNotFoundException;
 import com.obsidi.yearbook.exception.domain.NotEnoughPermissionException;
+import com.obsidi.yearbook.exception.domain.ProfileNotFoundException;
 import com.obsidi.yearbook.exception.domain.UserNotFoundException;
 import com.obsidi.yearbook.exception.domain.UsernameExistException;
 import com.obsidi.yearbook.jpa.Profile;
 import com.obsidi.yearbook.jpa.User;
 import com.obsidi.yearbook.provider.ResourceProvider;
+import com.obsidi.yearbook.repository.ProfileRepository;
 import com.obsidi.yearbook.repository.UserRepository;
 import com.obsidi.yearbook.security.JwtService;
 
@@ -365,4 +367,12 @@ public class UserService {
 
     logger.debug("User deleted successfully: {}", username);
   }
+  
+
+  public Profile getProfileById(UUID profileId) {
+      return profileRepository.findById(profileId)
+          .orElseThrow(() -> new ProfileNotFoundException("Profile not found with ID: " + profileId));
+  }
+
+  
 }
