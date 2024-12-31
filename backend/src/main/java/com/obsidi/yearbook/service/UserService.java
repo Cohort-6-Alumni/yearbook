@@ -308,14 +308,15 @@ public class UserService {
 
     if (Optional.ofNullable(currentProfile).isPresent()) {
 
-      this.updateValue(profile::getHeadline, currentProfile::setHeadline);
+      this.updateValue(profile::getCurrentRole, currentProfile::setCurrentRole);
       this.updateValue(profile::getBio, currentProfile::setBio);
       this.updateValue(profile::getInterests, currentProfile::setInterests);
       this.updateValue(profile::getHobbies, currentProfile::setHobbies);
       this.updateValue(profile::getPicture, currentProfile::setPicture);
       this.updateValue(profile::getFavoriteCodingSnack, currentProfile::setFavoriteCodingSnack);
       this.updateValue(profile::getFavoriteQuote, currentProfile::setFavoriteQuote);
-      this.updateValue(profile::getMostLikelyTo, currentProfile::setMostLikelyTo);
+      this.updateValue(profile::getMostLikelyToQuestion, currentProfile::setMostLikelyToQuestion);
+      this.updateValue(profile::getMostLikelyToAnswer, currentProfile::setMostLikelyToAnswer);
       this.updateValue(
           profile::getMostMemorableBootcampMoment, currentProfile::setMostMemorableBootcampMoment);
       this.updateValue(profile::getAdviceForFutureCohort, currentProfile::setAdviceForFutureCohort);
