@@ -2,10 +2,12 @@ package com.obsidi.yearbook.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.obsidi.yearbook.jpa.Profile;
+import com.obsidi.yearbook.jpa.User;
+import com.obsidi.yearbook.service.UserService;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.obsidi.yearbook.jpa.Profile;
-import com.obsidi.yearbook.jpa.User;
-import com.obsidi.yearbook.service.UserService;
-
 @CrossOrigin(exposedHeaders = "Authorization")
 @RestController
 @RequestMapping("")
@@ -41,12 +38,11 @@ public class UserController {
   // public List<User> listUsers() {
   // return userService.listUsers();
   // }
-  
+
   @GetMapping("/profiles")
   public Page<Profile> getAllProfiles(Pageable pageable) {
-      return userService.getAllProfiles(pageable);
+    return userService.getAllProfiles(pageable);
   }
-
 
   // Find user by username
   @GetMapping("/user/{username}")
@@ -135,18 +131,16 @@ public class UserController {
     logger.debug("Deleting user account.");
     this.userService.deleteUser();
   }
-  
- // @GetMapping("/profile/{profileId}")
- // public ResponseEntity<Profile> getProfileById(@PathVariable UUID profileId) {
-     // Profile profile = userService.getProfileById(profileId);
-      //return new ResponseEntity<>(profile, OK);
- // }
+
+  // @GetMapping("/profile/{profileId}")
+  // public ResponseEntity<Profile> getProfileById(@PathVariable UUID profileId) {
+  // Profile profile = userService.getProfileById(profileId);
+  // return new ResponseEntity<>(profile, OK);
+  // }
 
   @GetMapping("/profile/{profileId}")
   public Profile getProfileById(@PathVariable UUID profileId) {
-      logger.debug("Fetching Profile by ID: {}", profileId);
-      return userService.getProfileById(profileId);
+    logger.debug("Fetching Profile by ID: {}", profileId);
+    return userService.getProfileById(profileId);
   }
-
-  
 }
