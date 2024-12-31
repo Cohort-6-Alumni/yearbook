@@ -1,6 +1,7 @@
 package com.obsidi.yearbook.jpa;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -72,9 +73,19 @@ public class Profile implements Serializable {
   private String picture;
 
   @OneToOne
-  @JsonIgnoreProperties({"profile"})
+  @JsonBackReference
   @JoinColumn(name = "\"userId\"")
   private User user;
+
+  @JsonProperty("firstName")
+  public String getFirstName() {
+    return user != null ? user.getFirstName() : null;
+  }
+
+  @JsonProperty("lastName")
+  public String getLastName() {
+    return user != null ? user.getLastName() : null;
+  }
 
   @ColumnDefault("CURRENT_TIMESTAMP")
   @Column(name = "\"createdOn\"")

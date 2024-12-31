@@ -1,7 +1,6 @@
 package com.obsidi.yearbook.jpa;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.CascadeType;
@@ -51,16 +50,14 @@ public class User implements Serializable {
 
   @Column(name = "\"emailId\"")
   private String emailId;
-  
+
   @Column(columnDefinition = "TEXT")
   private String picture;
-
 
   @Column(name = "\"createdOn\"")
   private Timestamp createdOn;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  @JsonIgnoreProperties({"user"})
+  @JsonManagedReference
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Profile profile;
 
@@ -143,12 +140,13 @@ public class User implements Serializable {
   }
 
   public String getPicture() {
-	    return picture;
-	  }
+    return picture;
+  }
 
-	  public void setPicture(String picture) {
-	    this.picture = picture;
-	  }
+  public void setPicture(String picture) {
+    this.picture = picture;
+  }
+
   public Timestamp getCreatedOn() {
     return createdOn;
   }
