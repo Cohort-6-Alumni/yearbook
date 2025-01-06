@@ -32,7 +32,7 @@ public class User implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID) // Hibernate's built-in UUID generator
   @Column(name = "\"userId\"", nullable = false, updatable = false)
-//  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  //  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private UUID userId;
 
   @Column(name = "\"firstName\"")
