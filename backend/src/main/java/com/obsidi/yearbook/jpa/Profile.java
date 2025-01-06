@@ -12,7 +12,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.UUID;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -89,7 +88,7 @@ public class Profile implements Serializable {
 
   @ColumnDefault("CURRENT_TIMESTAMP")
   @Column(name = "\"createdOn\"")
-  private Instant createdOn;
+  private Timestamp createdOn;
 
   @ColumnDefault("CURRENT_TIMESTAMP")
   @Column(name = "\"updatedOn\"")
@@ -247,11 +246,11 @@ public class Profile implements Serializable {
     this.user = user;
   }
 
-  public Instant getCreatedOn() {
+  public Timestamp getCreatedOn() {
     return createdOn;
   }
 
-  public void setCreatedOn(Instant createdOn) {
+  public void setCreatedOn(Timestamp createdOn) {
     this.createdOn = createdOn;
   }
 

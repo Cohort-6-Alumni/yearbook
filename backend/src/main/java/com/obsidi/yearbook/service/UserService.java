@@ -325,6 +325,8 @@ public class UserService {
       this.updateTimestamp(() -> Timestamp.from(Instant.now()), currentProfile::setUpdatedOn);
 
     } else {
+      this.updateTimestamp(() -> Timestamp.from(Instant.now()), profile::setCreatedOn);
+      this.updateTimestamp(() -> Timestamp.from(Instant.now()), profile::setUpdatedOn);
       user.setProfile(profile);
       profile.setUser(user);
     }
