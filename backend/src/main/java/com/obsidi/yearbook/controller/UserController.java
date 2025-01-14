@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.obsidi.yearbook.jpa.Profile;
 import com.obsidi.yearbook.jpa.User;
 import com.obsidi.yearbook.service.UserService;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -149,6 +148,6 @@ public class UserController {
   @GetMapping("/members/list")
   public List<String> getAllUsers() {
     logger.debug("Getting all user list");
-        return userService.allCohortMemebers();
+    return userService.allCohortMemebers();
   }
 }

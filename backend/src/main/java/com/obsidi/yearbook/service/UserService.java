@@ -23,7 +23,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -376,15 +375,15 @@ public class UserService {
   }
 
   // List of cohort all fistname and lastname of members
-  public List<String> allCohortMemebers () {
+  public List<String> allCohortMemebers() {
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     User authUser =
-            this.userRepository
-                    .findByUsername(username)
-                    .orElseThrow(
-                            () ->
-                                    new UserNotFoundException(
-                                            String.format("Username doesn't exist, %s", username)));
+        this.userRepository
+            .findByUsername(username)
+            .orElseThrow(
+                () ->
+                    new UserNotFoundException(
+                        String.format("Username doesn't exist, %s", username)));
     return userRepository.findAll().stream()
         .map(user -> user.getFirstName() + " " + user.getLastName())
         .collect(Collectors.toList());
