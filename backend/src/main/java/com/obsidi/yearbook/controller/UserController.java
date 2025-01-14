@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.obsidi.yearbook.jpa.Profile;
 import com.obsidi.yearbook.jpa.User;
 import com.obsidi.yearbook.service.UserService;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -142,5 +143,11 @@ public class UserController {
   public Profile getProfileById(@PathVariable UUID profileId) {
     logger.debug("Fetching Profile by ID: {}", profileId);
     return userService.getProfileById(profileId);
+  }
+
+  @GetMapping("/members/list")
+  public List<String> getAllUsers() {
+    logger.debug("Getting all user list");
+    return userService.allCohortMemebers();
   }
 }
