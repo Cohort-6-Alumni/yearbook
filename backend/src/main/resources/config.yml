@@ -21,10 +21,10 @@ client:
       param: user/verifyEmail
       expiration: 86_400_000 # 24 hours
     reset:
-      param: user/resetPassword
+      param: user/reset_password
       expiration: 86_400_000 # 24 hours
     invite:
-      param: user/sendInvite
+      param: user/send_invite
       expiration: 172_800_000 # 48 hours
 # H2 Server Configuration
 h2.server:
