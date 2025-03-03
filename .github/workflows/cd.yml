@@ -1,4 +1,4 @@
-name: CD for yearbook
+name: CD for yearbook-api
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/${{ github.repository_owner }}/yearbook
+          images: ghcr.io/${{ github.repository_owner }}/yearbook-api
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -60,7 +60,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/yearbook:latest
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/yearbook-api:latest
           cache-to: type=inline
           
       - name: Trigger Coolify Deployment
