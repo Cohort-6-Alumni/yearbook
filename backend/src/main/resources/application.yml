@@ -16,7 +16,7 @@ spring:
   mail:
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
-    host: smtp.privateemail.com
+    host: smtp.mailgun.org
     port: 587
     protocol: smtp
     properties:
@@ -41,6 +41,14 @@ spring:
         "[format_sql]": true
     hibernate:
       naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+---
+management:
+  endpoints:
+    access:
+      default: NONE
+  endpoint:
+    health:
+      access: UNRESTRICTED
 ---
 # Default Profile
 spring:
@@ -79,7 +87,12 @@ spring:
     username: ${PG_USERNAME}
     password: ${PG_PASSWORD}
     hikari:
-      maximum-pool-size: 2
+      data-source-properties:
+        sslmode: require
+      max-lifetime: 200000
+      idle-timeout: 30000
+      maximum-pool-size: 50
+
   jpa:
     hibernate:
       ddl-auto: validate
