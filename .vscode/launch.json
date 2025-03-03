@@ -2,13 +2,14 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-YearbookApplication<yearbook>",
+            "name": "Spring Boot-YearbookApplication",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/backend",
             "mainClass": "com.obsidi.yearbook.YearbookApplication",
             "projectName": "yearbook",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "args": "--spring.profiles.active=prod",
+            //"args": "",
+            "envFile": "${workspaceFolder}/backend/.env"
         }
     ]
 }
