@@ -153,10 +153,10 @@ public class UserController {
   @PostMapping("/user/refresh-token")
   public ResponseEntity<Void> refreshToken() {
     logger.debug("Refreshing user token");
-    
+
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     HttpHeaders jwtHeader = this.userService.generateJwtHeader(username);
-    
+
     return new ResponseEntity<>(jwtHeader, OK);
   }
 }
