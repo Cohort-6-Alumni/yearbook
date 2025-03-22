@@ -7,7 +7,7 @@
             "cwd": "${workspaceFolder}/backend",
             "mainClass": "com.obsidi.yearbook.YearbookApplication",
             "projectName": "yearbook",
-            "args": "--spring.profiles.active=prod",
+            "args": "--spring.profiles.active=development",
             //"args": "",
             "envFile": "${workspaceFolder}/backend/.env"
         }

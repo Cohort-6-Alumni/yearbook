@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -147,5 +148,15 @@ public class UserController {
   public List<String> getAllUsers() {
     logger.debug("Getting all user list");
     return userService.allCohortMemebers();
+  }
+
+  @PostMapping("/user/refresh-token")
+  public ResponseEntity<Void> refreshToken() {
+    logger.debug("Refreshing user token");
+    
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    HttpHeaders jwtHeader = this.userService.generateJwtHeader(username);
+    
+    return new ResponseEntity<>(jwtHeader, OK);
   }
 }
