@@ -62,7 +62,7 @@ public class UserController {
 
   // Endpoint to curate invited users
   @GetMapping("/users/invited")
-  public List<Map<String, String>>  getInvitedUsers() {
+  public List<Map<String, String>> getInvitedUsers() {
     logger.debug("Getting Invited Users");
     return this.userService.getInvitedUsers();
   }
