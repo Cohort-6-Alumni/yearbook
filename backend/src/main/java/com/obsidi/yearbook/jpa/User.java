@@ -54,7 +54,7 @@ public class User implements Serializable {
   @Column(name = "\"isInvited\"")
   private boolean isInvited;
 
-  @Column(name="\"invitedOn\"")
+  @Column(name = "\"invitedOn\"")
   @ColumnDefault("CURRENT_TIMESTAMP")
   private Timestamp invitedOn;
 
@@ -77,10 +77,10 @@ public class User implements Serializable {
   public Timestamp getInvitedOn() {
     return invitedOn;
   }
-  
+
   public void setInvitedOn(Timestamp invitedOn) {
     this.invitedOn = invitedOn;
-  }  
+  }
 
   public User() {}
 
@@ -167,6 +167,7 @@ public class User implements Serializable {
   public boolean isInvited() {
     return isInvited;
   }
+
   public void setInvited(boolean isInvited) {
     this.isInvited = isInvited;
   }

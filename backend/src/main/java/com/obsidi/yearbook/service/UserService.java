@@ -282,7 +282,7 @@ public class UserService {
       this.userRepository.save(user);
       logger.debug("User invited successfully: {}", emailId);
     } else {
-      throw new EmailNotFoundException(String.format("Email doesn't exist: %s", emailId ));
+      throw new EmailNotFoundException(String.format("Email doesn't exist: %s", emailId));
     }
   }
 
@@ -404,26 +404,27 @@ public class UserService {
 
   // Implementation should be somewhere in this class
 
-/**
- * Gets the list of invited users
- * @return List of invited users
- */
-public List<Object> getInvitedUsers() {
+  /**
+   * Gets the list of invited users
+   *
+   * @return List of invited users
+   */
+  public List<Object> getInvitedUsers() {
     // Fetch all users and filter by invited status and return objects with name and email
-
 
     List<Object> invitedUsers = new ArrayList<>();
     userRepository.findAll().stream()
-      .filter(User::isInvited)
-      .forEach(user -> {
-        // Create a map for each user with email and name
-        var userInfo = new java.util.HashMap<String, String>();
-        userInfo.put("email", user.getEmailId());
-        userInfo.put("name", user.getFirstName() + " " + user.getLastName());
-        userInfo.put("status", user.getPassword().isEmpty() ? "pending" : "registered");
-        userInfo.put("invitedOn", user.getInvitedOn().toString());
-        invitedUsers.add(userInfo);
-      });
+        .filter(User::isInvited)
+        .forEach(
+            user -> {
+              // Create a map for each user with email and name
+              var userInfo = new java.util.HashMap<String, String>();
+              userInfo.put("email", user.getEmailId());
+              userInfo.put("name", user.getFirstName() + " " + user.getLastName());
+              userInfo.put("status", user.getPassword().isEmpty() ? "pending" : "registered");
+              userInfo.put("invitedOn", user.getInvitedOn().toString());
+              invitedUsers.add(userInfo);
+            });
     return invitedUsers;
-}
+  }
 }
