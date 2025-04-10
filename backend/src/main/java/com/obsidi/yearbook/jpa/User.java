@@ -23,12 +23,6 @@ public class User implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  // @Id
-  // @ColumnDefault("gen_random_uuid()")
-  // @Column(name = "\"userId\"", nullable = false)
-  // @JsonProperty(access = Access.WRITE_ONLY)
-  // private UUID userId;
-
   @Id
   @GeneratedValue(strategy = GenerationType.UUID) // Hibernate's built-in UUID generator
   @Column(name = "\"userId\"", nullable = false, updatable = false)
@@ -57,6 +51,12 @@ public class User implements Serializable {
   @Column(name = "\"createdOn\"")
   private Timestamp createdOn;
 
+  @Column(name = "\"isInvited\"")
+  private boolean isInvited;
+
+  @Column(name = "\"invitedOn\"")
+  private Timestamp invitedOn;
+
   @JsonManagedReference
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Profile profile;
@@ -71,6 +71,14 @@ public class User implements Serializable {
 
   public void setUpdatedOn(Timestamp updatedOn) {
     this.updatedOn = updatedOn;
+  }
+
+  public Timestamp getInvitedOn() {
+    return invitedOn;
+  }
+
+  public void setInvitedOn(Timestamp invitedOn) {
+    this.invitedOn = invitedOn;
   }
 
   public User() {}
@@ -153,6 +161,19 @@ public class User implements Serializable {
 
   public void setCreatedOn(Timestamp createdOn) {
     this.createdOn = createdOn;
+  }
+
+  public boolean isInvited() {
+    return isInvited;
+  }
+
+  public void setInvited(boolean isInvited) {
+    this.isInvited = isInvited;
+    if (isInvited) {
+      this.invitedOn = new Timestamp(System.currentTimeMillis());
+    } else {
+      this.invitedOn = null;
+    }
   }
 
   @Override
