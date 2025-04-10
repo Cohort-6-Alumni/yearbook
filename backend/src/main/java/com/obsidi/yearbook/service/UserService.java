@@ -17,6 +17,7 @@ import com.obsidi.yearbook.repository.UserRepository;
 import com.obsidi.yearbook.security.JwtService;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -254,7 +255,7 @@ public class UserService {
                         String.format("User not found for username: %s", username)));
 
     // check if user is admin role
-    if (!user.getRole().equals(ADMIN)) {
+    if (!user.getRole().equalsIgnoreCase(ADMIN)) {
       throw new NotEnoughPermissionException(String.format("User not Admin: %s", username));
     }
 
@@ -267,9 +268,21 @@ public class UserService {
 
     if (opt.isPresent()) {
       // Call the sendInviteMail method in EmailService
-      this.emailService.sendInviteMail(opt.get());
+      User user = opt.get();
+      // Check if the user is already invited
+      if (user.isInvited()) {
+        throw new EmailExistException(String.format("User already invited, %s", emailId));
+      }
+      // Send the invite email
+      this.emailService.sendInviteMail(user);
+      // Update the user to set invited status
+      user.setInvited(true);
+      user.setInvitedOn(Timestamp.from(Instant.now()));
+      // Save the updated user back to the repository
+      this.userRepository.save(user);
+      logger.debug("User invited successfully: {}", emailId);
     } else {
-      throw new EmailNotFoundException(String.format("Email doesn't exist: %s", emailId));
+      throw new EmailNotFoundException(String.format("Email doesn't exist: %s", emailId ));
     }
   }
 
@@ -388,4 +401,29 @@ public class UserService {
         .map(user -> user.getFirstName() + " " + user.getLastName())
         .collect(Collectors.toList());
   }
+
+  // Implementation should be somewhere in this class
+
+/**
+ * Gets the list of invited users
+ * @return List of invited users
+ */
+public List<Object> getInvitedUsers() {
+    // Fetch all users and filter by invited status and return objects with name and email
+
+
+    List<Object> invitedUsers = new ArrayList<>();
+    userRepository.findAll().stream()
+      .filter(User::isInvited)
+      .forEach(user -> {
+        // Create a map for each user with email and name
+        var userInfo = new java.util.HashMap<String, String>();
+        userInfo.put("email", user.getEmailId());
+        userInfo.put("name", user.getFirstName() + " " + user.getLastName());
+        userInfo.put("status", user.getPassword().isEmpty() ? "pending" : "registered");
+        userInfo.put("invitedOn", user.getInvitedOn().toString());
+        invitedUsers.add(userInfo);
+      });
+    return invitedUsers;
+}
 }

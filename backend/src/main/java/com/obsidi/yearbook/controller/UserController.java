@@ -59,6 +59,13 @@ public class UserController {
     this.userService.sendInvite(emailId);
   }
 
+  // Endpoint to currate invited users
+  @GetMapping("/users/invited")
+  public List<Object> getInvitedUsers() {
+    logger.debug("Getting Invited Users");
+    return this.userService.getInvitedUsers();
+  }
+
   // Endpoint to complete signup by setting a password
   @PostMapping("/user/signup/complete")
   public void completeSignup(@RequestBody JsonNode json) {
