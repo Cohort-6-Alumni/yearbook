@@ -59,7 +59,7 @@ public class UserController {
     this.userService.sendInvite(emailId);
   }
 
-  // Endpoint to currate invited users
+  // Endpoint to curate invited users
   @GetMapping("/users/invited")
   public List<Object> getInvitedUsers() {
     logger.debug("Getting Invited Users");
