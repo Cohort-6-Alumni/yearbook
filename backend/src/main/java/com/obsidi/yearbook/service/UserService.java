@@ -18,6 +18,8 @@ import com.obsidi.yearbook.security.JwtService;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -409,16 +411,16 @@ public class UserService {
    *
    * @return List of invited users
    */
-  public List<Object> getInvitedUsers() {
+  public List<Map<String, String>> getInvitedUsers() {
     // Fetch all users and filter by invited status and return objects with name and email
 
-    List<Object> invitedUsers = new ArrayList<>();
+    List<Map<String, String>> invitedUsers = new ArrayList<>();
     userRepository.findAll().stream()
         .filter(User::isInvited)
         .forEach(
             user -> {
               // Create a map for each user with email and name
-              var userInfo = new java.util.HashMap<String, String>();
+              var userInfo = new HashMap<String, String>();
               userInfo.put("email", user.getEmailId());
               userInfo.put("name", user.getFirstName() + " " + user.getLastName());
               userInfo.put("status", user.getPassword().isEmpty() ? "pending" : "registered");

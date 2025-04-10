@@ -55,7 +55,6 @@ public class User implements Serializable {
   private boolean isInvited;
 
   @Column(name = "\"invitedOn\"")
-  @ColumnDefault("CURRENT_TIMESTAMP")
   private Timestamp invitedOn;
 
   @JsonManagedReference
@@ -170,6 +169,11 @@ public class User implements Serializable {
 
   public void setInvited(boolean isInvited) {
     this.isInvited = isInvited;
+    if (isInvited) {
+      this.invitedOn = new Timestamp(System.currentTimeMillis());
+    } else {
+      this.invitedOn = null;
+    }
   }
 
   @Override

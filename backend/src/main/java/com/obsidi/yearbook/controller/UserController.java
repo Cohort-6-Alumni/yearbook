@@ -7,6 +7,7 @@ import com.obsidi.yearbook.jpa.Profile;
 import com.obsidi.yearbook.jpa.User;
 import com.obsidi.yearbook.service.UserService;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -61,7 +62,7 @@ public class UserController {
 
   // Endpoint to curate invited users
   @GetMapping("/users/invited")
-  public List<Object> getInvitedUsers() {
+  public List<Map<String, String>>  getInvitedUsers() {
     logger.debug("Getting Invited Users");
     return this.userService.getInvitedUsers();
   }
